@@ -1,0 +1,378 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Contact | ParkSpero Melbourne</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css">
+  <style>
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: linear-gradient(to bottom, #6002ee 0%, #3a1397 60%, #102178 100%);
+      min-height: 100vh;
+      color: #452179;
+    }
+    .navbar {
+      width: 100%;
+      background: linear-gradient(90deg, #be7bf6 0%, #9400ff 80%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      padding: 0 32px;
+      position: relative;
+      min-height: 90px;
+      box-sizing: border-box;
+    }
+    .navbar-content {
+      width: 100%;
+      max-width: 1500px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .logo-row img {
+      height: 106px;
+      width: 106px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 10px #1d1a2e80);
+    }
+    .site-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #ffe441;
+      letter-spacing: 1.5px;
+      text-shadow: 0 2px 8px #32246888;
+    }
+    .marquee-bar {
+      background: linear-gradient(90deg, #be7bf6cc 0%, #ffe441ee 85%);
+      border-radius: 16px;
+      min-width: 320px;
+      max-width: 320px;
+      height: 44px;
+      margin: 0 18px;
+      box-shadow: 0 2px 12px #963be333, 0 1px 8px #ffe44135;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 0 20px;
+      position: relative;
+    }
+    .marquee-text {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      font-weight: 900;
+      color: #421d79;
+      font-size: 1.09em;
+      animation: marquee-move 12s linear infinite;
+      letter-spacing: 0.5px;
+      text-shadow: 0 1px 6px #fff8, 0 1px 3px #be7bf6cc;
+    }
+    .marquee-car-img {
+      vertical-align: middle;
+      display: inline-block;
+      height: 22px;
+      margin-right: 12px;
+      margin-bottom: 2px;
+      filter: drop-shadow(0 2px 8px #ffe44190);
+    }
+    @keyframes marquee-move {
+      0% { transform: translateX(50%);}
+      100% { transform: translateX(-100%);}
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    .nav-link {
+      color: #ffffff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: opacity 0.15s;
+      opacity: 0.93;
+      font-size: 1.18em;
+      font-weight: 900;
+      padding: 0.22em 0.86em;
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+    }
+    .nav-link:hover,
+    .nav-link:focus-visible {
+      color: #ffd900 !important;
+      text-shadow:
+          0 0 14px #ffd900cc,
+          0 0 2px #ffd900cc,
+          0 1px 6px #fff8;
+      outline: none;
+      opacity: 1;
+      background: none;
+      box-shadow: none;
+    }
+    .nav-link.active {
+      color: #ffd900 !important;
+      text-shadow: 0 0 14px #ffd900cc, 0 0 2px #ffd900cc, 0 1px 6px #fff8;
+      background: none;
+      box-shadow: none;
+    }
+
+    /* Team Section */
+    .team-container {
+      max-width: 950px;
+      margin: 52px auto 0 auto;
+      padding: 24px 0 80px 0;
+    }
+    .team-title {
+      text-align: center;
+      font-size: 3em;
+      margin-bottom: 38px;
+      margin-top: 5px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+    }
+    .golden-glow {
+      color: #ffe441;
+      font-weight: 900;
+      text-shadow:
+        /* 黑色粗邊 */
+        -2px -2px 2px #222,
+        2px -2px 2px #222,
+        -2px 2px 2px #222,
+        2px 2px 2px #222,
+        /* 較細黑邊 */
+        -1px 0px 1px #222,
+        1px 0px 1px #222,
+        0px -1px 1px #222,
+        0px 1px 1px #222,
+        /* 金色發光 */
+        0 0 14px #ffd900cc,
+        0 0 2px #ffd900cc,
+        0 1px 6px #fff8,
+        0 0 18px #ffe441b0;
+    }
+    .team-table {
+      width: 100%;
+      border-spacing: 0 18px;
+      border-collapse: separate;
+      margin: 0 auto;
+    }
+    .team-th {
+      font-size: 1.5em;
+      background: linear-gradient(90deg, #a072ea 0%, #dccaff 100%);
+      color: #fff;
+      font-weight: 900;
+      border-radius: 18px 18px 0 0;
+      padding: 16px 0 15px 12px;
+      text-align: left;
+      letter-spacing: 1.2px;
+      box-shadow: 0 2px 16px #aa96f888;
+      border-bottom: 4px solid #b799ff44;
+    }
+    .team-tr {
+      transition: box-shadow 0.22s, transform 0.17s;
+      background: linear-gradient(90deg, #fff 75%, #d6cfff 100%);
+      box-shadow: 0 3px 22px #6d18d729;
+      border-radius: 22px;
+      overflow: hidden;
+    }
+    .team-tr:hover {
+      box-shadow: 0 8px 36px #ffe44160;
+      transform: scale(1.017);
+      background: linear-gradient(90deg, #fff8dc 90%, #ffe441 100%);
+    }
+    .team-td {
+      font-size: 1.27em;
+      font-weight: 700;
+      padding: 18px 22px 17px 0;
+      background: #fff;
+      color: #3a1a7a;
+      border-radius: 0 18px 18px 0;
+      vertical-align: middle;
+      text-align: left;
+      box-shadow: 0 1px 10px #ffe44111;
+    }
+    .team-avatar {
+      width: 66px;
+      height: 66px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #ffe441 50%, #e8d3ff 100%);
+      color: #3a1397;
+      font-size: 1.53em;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 14px #3a139766;
+      margin: 0 22px 0 0;
+      border: 3px solid #fff8dc;
+      letter-spacing: 1px;
+    }
+    .team-name {
+      font-weight: 900;
+      font-size: 1.11em;
+      color: #35138b;
+    }
+    .team-desc {
+      font-size: 0.89em;
+      color: #a3866a;
+      font-weight: 900;
+      margin-left: 4px;
+    }
+    .team-id {
+      color: #4a1faa;
+      font-size: 1.13em;
+      font-weight: 900;
+      text-align: right;
+      border-radius: 0 18px 18px 0;
+      background: #fff;
+      box-shadow: 0 1px 10px #b99df922;
+      padding: 18px 32px 17px 0;
+      letter-spacing: 1px;
+    }
+    .team-id-missing {
+      color: #bcbcbc;
+      font-weight: 900;
+      font-size: 1.11em;
+      text-align: right;
+      border-radius: 0 18px 18px 0;
+      background: #fff;
+      box-shadow: 0 1px 10px #f2eedd22;
+      padding: 18px 32px 17px 0;
+    }
+    @media (max-width: 900px) {
+      .navbar-content { flex-direction: column; gap: 18px; }
+      .team-container { max-width: 99vw; padding: 2vw; }
+      .team-table { font-size: 0.91em; }
+      .team-th, .team-td, .team-id { padding-left: 8px; padding-right: 8px;}
+      .team-avatar { width: 50px; height: 50px; font-size: 1.1em;}
+    }
+
+    #loadingMask {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s;
+    }
+    #loadingMask.active {
+      display: flex !important;
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR (same as home) -->
+  <div class="navbar">
+    <div class="navbar-content">
+      <div class="logo-row">
+        <img src="{% static 'TA12_logo_V2-removebg-preview.png' %}" alt="Logo"/>
+        <span class="site-title">ParkSpero Melbourne</span>
+      </div>
+      <div class="marquee-bar">
+        <span class="marquee-text">
+            <img class="marquee-car-img" src="{% static 'car-icon-gif-hd-png-download.png' %}" alt="car" />
+            G’day from ParkSpero Melbourne! TA12 brings you easier parking
+        </span>
+      </div>
+      <div class="nav-links">
+        <a class="nav-link" href="{% url 'home' %}"><i class="lucide lucide-home"></i>Home</a>
+        <a class="nav-link" href="{% url 'live_parking' %}"><i class="lucide lucide-info"></i>Live Parking</a>
+        <a class="nav-link" href="{% url 'predictions' %}"><i class="lucide lucide-bar-chart-3"></i>Predictions</a>
+        <a class="nav-link" href="{% url 'analytics' %}"><i class="lucide lucide-parking-circle"></i>Analytics</a>
+        <!--<a class="nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}" href="{% url 'contact' %}"><i class="lucide lucide-mail"></i>Contact</a>-->
+      </div>
+    </div>
+  </div>
+  <div class="team-container">
+    <div class="team-title golden-glow">Meet the Team</div>
+    <table class="team-table">
+      <tr>
+        <th class="team-th"></th>
+        <th class="team-th">Name</th>
+        <th class="team-th">Student ID</th>
+      </tr>
+      <!-- Ranjana Chakraverty -->
+      <tr class="team-tr">
+        <td class="team-td"><div class="team-avatar">RC</div></td>
+        <td class="team-td"><span class="team-name">Ranjana Chakraverty</span><span class="team-desc"> (Team Leader)</span></td>
+        <td class="team-id">35246715</td>
+      </tr>
+      <!-- Huaao Li -->
+      <tr class="team-tr">
+        <td class="team-td"><div class="team-avatar">HL</div></td>
+        <td class="team-td"><span class="team-name">Huaao Li</span></td>
+        <td class="team-id">34737162</td>
+      </tr>
+      <!-- Kevin Hung -->
+      <tr class="team-tr">
+        <td class="team-td"><div class="team-avatar">KH</div></td>
+        <td class="team-td"><span class="team-name">Shih-Hsiang Hung</span><span class="team-desc"> (Kevin Hung)</span></td>
+        <td class="team-id">34530665</td>
+      </tr>
+      <!-- Zifeng Yuan -->
+      <tr class="team-tr">
+        <td class="team-td"><div class="team-avatar">ZY</div></td>
+        <td class="team-td"><span class="team-name">Zifeng Yuan</span></td>
+        <td class="team-id-missing">—</td>
+      </tr>
+      <!-- Jewel Kurian Elias -->
+      <tr class="team-tr">
+        <td class="team-td"><div class="team-avatar">JK</div></td>
+        <td class="team-td"><span class="team-name">Jewel Kurian Elias</span></td>
+        <td class="team-id">33987440</td>
+      </tr>
+    </table>
+  </div>
+
+  <script>
+      function showLoadingMask() {
+        const mask = document.getElementById('loadingMask');
+        mask.style.display = 'flex';
+        setTimeout(() => mask.classList.add('active'), 10);
+      }
+      function hideLoadingMask() {
+        const mask = document.getElementById('loadingMask');
+        mask.classList.remove('active');
+        setTimeout(() => mask.style.display = 'none', 250);
+      }
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          if (link.target === "_blank" || (link.href && !link.href.startsWith(window.location.origin))) return;
+          e.preventDefault();
+          showLoadingMask();
+          setTimeout(() => { window.location.href = link.href; }, 1200);
+        });
+      });
+      window.onload = hideLoadingMask;
+  </script>
+
+  <!-- Loading Mask -->
+  <div id="loadingMask"
+    style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;
+    background:rgba(32,18,77,0.16);backdrop-filter:blur(2.5px);
+    align-items:center;justify-content:center;transition:opacity .22s;">
+    <div style="background:#ffffff3c;border-radius:26px;padding:40px 60px;box-shadow:0 8px 28px #421d7999;
+        display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <img src="{% static 'nyan.gif' %}" alt="Loading..." style="width:120px;height:auto;max-width:90vw;max-height:70vh;display:block;">
+        <span class="golden-glow" style="font-size:2.2em;letter-spacing:.8px;">Loading…</span>
+    </div>
+  </div>
+</body>
+</html>

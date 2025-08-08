@@ -1,0 +1,858 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>ParkSpot Melbourne</title>
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css">
+  <style>
+    html, body {
+      height: 100%;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', Arial, sans-serif;
+      background: linear-gradient(to bottom, #6002ee 0%, #3a1397 60%, #102178 100%);
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    .why-section {
+        position: relative;
+        display: flex;
+        min-height: 460px;
+        background: #1b0437; /* 深紫色背景 #1b0437*/
+        overflow: hidden;
+        align-items: flex-start;
+        padding: 48px 0 0 0;
+        }
+
+        .lottie-bg {
+        position: absolute;
+        left: -70px;
+        bottom: -70px;
+        z-index: 0;
+        opacity: 0.65;
+        pointer-events: none;
+        user-select: none;
+        width: 700px;
+        height: 700px;
+        }
+
+        .why-main-content {
+        z-index: 1;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        max-width: 1250px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        }
+
+        .why-title {
+        font-size: 2.1rem;
+        font-weight: 900;
+        margin-bottom: 32px;
+        color: #fff;
+        text-align: center;
+        letter-spacing: 0.7px;
+        }
+
+        .why-list {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+        width: 100%;
+        max-width: 640px;
+        margin: 0 auto 18px auto;
+        font-size: 1.18rem;
+        font-weight: 500;
+        z-index: 1;
+        }
+
+        .why-list-item {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        transition: transform 0.28s cubic-bezier(.4,2,.6,1);
+        will-change: transform;
+        cursor: pointer;
+        border-radius: 8px;
+        padding: 0.12em 0.3em 0.12em 0.12em;
+        background: none;
+        position: relative;
+        }
+        .why-list-item:hover {
+        transform: scale(1.045);
+        background: rgba(255, 239, 99, 0.05);
+        }
+
+        .why-icon-bullet {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #321650;
+        width: 44px;
+        height: 44px;
+        box-shadow: 0 2px 14px #5e1d557a;
+        font-size: 1.4em;
+        color: #ff7d1a;
+        transition: box-shadow 0.24s, border 0.24s;
+        border: 2px solid transparent;
+        }
+        .why-list-item:hover .why-icon-bullet {
+        box-shadow: 0 0 0 4px #ff7d1a55, 0 4px 28px #ff7d1a40;
+        border: 2px solid #ffb01a88;
+        animation: rotate-bullet 0.6s cubic-bezier(.4,2,.6,1);
+        }
+        .why-list-item:hover .why-icon-bullet i {
+        animation: bullet-jump 0.44s cubic-bezier(.4,2,.6,1);
+        }
+        @keyframes rotate-bullet {
+        0% { transform: rotate(0deg);}
+        50% { transform: rotate(-13deg);}
+        100% { transform: rotate(0deg);}
+        }
+        @keyframes bullet-jump {
+        0% { transform: scale(1);}
+        35% { transform: scale(1.15);}
+        60% { transform: scale(0.93);}
+        100% { transform: scale(1);}
+        }
+
+
+    /* HEADER NAVBAR */
+    .navbar {
+      width: 100%;
+      background: linear-gradient(90deg, #be7bf6 0%, #9400ff 80%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      padding: 0 32px;
+      position: relative;
+      min-height: 90px;
+      box-sizing: border-box;
+    }
+    .navbar-content {
+      width: 100%;
+      max-width: 1500px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    .logo-row img {
+      height: 106px;
+      width: 106px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 10px #1d1a2e80);
+    }
+    .site-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #ffe441;
+      letter-spacing: 1.5px;
+      text-shadow: 0 2px 8px #32246888;
+    }
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      border-radius: 30px;
+      padding: 0 18px;
+      min-width: 340px;
+      max-width: 500px;
+      height: 48px;
+      margin: 0 22px;
+      box-shadow: 0 4px 14px 0 #22096330;
+      font-family: inherit;
+    }
+    .search-bar input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 1rem;
+      color: #5d429c;
+      padding: 10px 0 10px 6px;
+      width: 100%;
+      font-family: inherit;
+    }
+    .marquee-bar {
+    background: linear-gradient(90deg, #be7bf6cc 0%, #ffe441ee 85%);
+    border-radius: 16px;
+    min-width: 320px;
+    max-width: 320px;
+    height: 44px;
+    margin: 0 18px;
+    box-shadow: 0 2px 12px #963be333, 0 1px 8px #ffe44135;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 0 20px;
+    position: relative;
+    }
+    .marquee-text {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    font-weight: 900;
+    color: #421d79; /* 深紫色，和 header 同色調 */
+    font-size: 1.09em;
+    animation: marquee-move 12s linear infinite;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 6px #fff8, 0 1px 3px #be7bf6cc;
+    }
+    .marquee-car-img {
+    vertical-align: middle;
+    display: inline-block;
+    height: 22px;
+    margin-right: 12px;
+    margin-bottom: 2px;
+    filter: drop-shadow(0 2px 8px #ffe44190); /* 給車子微金光 */
+    }
+    @keyframes marquee-move {
+    0% { transform: translateX(100%);}
+    100% { transform: translateX(-100%);}
+    }
+
+    .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    }
+    .nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: opacity 0.15s;
+    opacity: 0.93;
+    font-size: 1.18em;
+    font-weight: 900;
+    padding: 0.22em 0.86em;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    }
+    .nav-link:hover,
+    .nav-link:focus-visible {
+    color: #ffd900 !important;
+    text-shadow:
+        0 0 14px #ffd900cc,
+        0 0 2px #ffd900cc,
+        0 1px 6px #fff8;
+    outline: none;
+    opacity: 1;
+    background: none;
+    box-shadow: none;
+    }
+
+    .nav-link.active {
+      color: #ffd900 !important;
+      text-shadow: 0 0 14px #ffd900cc, 0 0 2px #ffd900cc, 0 1px 6px #fff8;
+      background: none;
+      box-shadow: none;
+    }
+
+    .login-btn {
+      margin-left: 16px;
+      background: #ffe441;
+      color: #4d34a3;
+      font-weight: bold;
+      padding: 0.7em 1.5em;
+      border-radius: 1.5em;
+      border: none;
+      font-size: 1.15rem;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      box-shadow: 0 4px 18px #311a665c;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+    }
+    .login-btn:hover {
+      background: #fff2a4;
+      color: #6002ee;
+    }
+
+    /* HERO SECTION */
+    .hero-section {
+      width: 100%;
+      min-height: 380px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 85px 18px 48px 18px;
+      position: relative;
+      background: linear-gradient(170deg, #6d18d7 30%, #331177 100%);
+    }
+    .hero-title {
+      font-size: 3.1rem;
+      font-weight: 900;
+      color: #ffe441;
+      margin-bottom: 0.6em;
+      text-shadow: 0 4px 15px #1b006888, 0 1px 0 #222;
+      letter-spacing: 1px;
+      line-height: 1.15;
+      animation: fadeIn 1.2s ease;
+    }
+    .hero-desc {
+      font-size: 1.35rem;
+      color: #fff;
+      margin-bottom: 1.3em;
+      font-weight: 500;
+      letter-spacing: 0.3px;
+      text-shadow: 0 1px 4px #200;
+      animation: fadeIn 1.6s ease;
+    }
+    .dashboard-btn {
+      background: linear-gradient(90deg, #a259ff 0%, #ffe441 100%);
+      color: #4d34a3;
+      border: none;
+      border-radius: 2em;
+      padding: 1em 2.3em;
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin-top: 0.2em;
+      cursor: pointer;
+      box-shadow: 0 3px 13px #522bc150;
+      transition: background 0.18s, color 0.18s, box-shadow .18s, transform .18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6em;
+      position: relative;
+      z-index: 2;
+    }
+    .dashboard-btn:hover, .dashboard-btn:focus {
+      background: linear-gradient(90deg, #ffe441 0%, #a259ff 100%);
+      color: #6d18d7;
+      box-shadow: 0 8px 28px #ffe44160;
+      transform: translateY(-2px) scale(1.03);
+    }
+
+    /* WHY CHOOSE SECTION */
+    .why-section {
+      width: 100%;
+      background: #1b0437;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: center;
+      min-height: 430px;
+      padding: 60px 0 0 0;
+      position: relative;
+      box-shadow: 0 -6px 32px #5e31ad30;
+      overflow: hidden;
+    }
+    .why-img-side {
+      flex: 1.1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      min-width: 320px;
+    }
+    .why-img-side img {
+      max-width: 320px;
+      margin-left: 16px;
+      opacity: 0.90;
+      filter: drop-shadow(0 5px 30px #7b2ff480);
+      animation: slideUp 1.2s cubic-bezier(.4,2,.6,1);
+    }
+    .why-content-side {
+      flex: 2;
+      color: #fff;
+      padding: 18px 30px 28px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      min-width: 320px;
+    }
+    .why-title {
+      font-size: 2.1rem;
+      font-weight: 900;
+      margin-bottom: 28px;
+      letter-spacing: 0.7px;
+      animation: fadeIn 1.4s;
+    }
+    .why-list {
+      display: flex;
+      flex-direction: column;
+      gap: 19px;
+      font-size: 1.18rem;
+      font-weight: 500;
+    }
+    .why-list-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: rgba(60,0,90,0.14);
+      border-radius: 16px;
+      padding: 8px 18px 8px 0;
+      box-shadow: 0 1px 4px #1b04370c;
+      animation: slideUp 1.6s cubic-bezier(.4,2,.6,1);
+      opacity: 1;
+      transition: background .18s;
+    }
+    .why-list-item i {
+      color: #ffe441;
+      font-size: 1.3em;
+      margin-right: 2px;
+      filter: drop-shadow(0 2px 2px #0003);
+      transition: transform .18s;
+    }
+    .why-list-item:hover i {
+      transform: scale(1.13) rotate(-15deg);
+    }
+    .why-list-item:hover {
+      background: rgba(140, 50, 180, 0.15);
+    }
+    /* FEATURE CARDS SECTION */
+
+    .features-title {
+      color: #fff;
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 32px;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 6px #38004038;
+    }
+    .features-cards-row {
+      width: 100%;
+      max-width: 1220px;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .feature-card {
+      background: linear-gradient(135deg, #fff0 60%, #ffe44180 100%);
+      border-radius: 18px;
+      min-width: 220px;
+      max-width: 330px;
+      flex: 1 1 230px;
+      padding: 38px 18px 28px 18px;
+      box-shadow: 0 3px 16px #6d18d76b;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      transition: transform 0.18s, box-shadow 0.18s;
+      overflow: visible;
+      cursor: pointer;
+      z-index: 2;
+      animation: fadeIn 1.3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-8px) scale(1.045);
+      box-shadow: 0 8px 32px #ffe44195;
+      z-index: 4;
+    }
+    .feature-card i {
+      font-size: 2.3em;
+      color: #ffe441;
+      margin-bottom: 12px;
+      transition: transform .18s;
+      filter: drop-shadow(0 2px 8px #ffdf8070);
+    }
+    .feature-card:hover i {
+      transform: scale(1.18) rotate(-12deg);
+    }
+    .feature-card-title {
+      font-size: 1.22rem;
+      font-weight: 800;
+      margin-bottom: 11px;
+      color: #ffe441;
+      letter-spacing: 0.2px;
+      text-align: center;
+    }
+    .feature-card-desc {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: #fff;
+      text-align: center;
+    }
+    /* 小提示動畫 */
+    .card-tooltip {
+      opacity: 0;
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%) translateY(12px) scale(.97);
+      background: #ffe441;
+      color: #5d429c;
+      padding: 6px 18px;
+      border-radius: 12px;
+      font-size: 0.95em;
+      font-weight: 700;
+      pointer-events: none;
+      white-space: nowrap;
+      box-shadow: 0 3px 16px #a259ff55;
+      transition: opacity .19s, transform .16s;
+      z-index: 99;
+    }
+    .feature-card:hover .card-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0) scale(1.04);
+    }
+
+    /* Footer */
+    .footer {
+      background: linear-gradient(90deg, #a259ff 0%, #331177 100%);
+      color: #fff;
+      padding: 36px 0 20px 0;
+      text-align: center;
+      font-size: 1.01rem;
+      letter-spacing: 0.1px;
+      margin-top: 18px;
+    }
+    .footer .footer-title {
+      font-weight: 800;
+      font-size: 1.13em;
+      letter-spacing: 0.2px;
+      color: #ffe441;
+    }
+    .footer-links {
+      margin: 0 auto 18px auto;
+      display: flex;
+      gap: 2em;
+      justify-content: center;
+      font-weight: 600;
+    }
+    .footer-links a {
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.93;
+      transition: opacity 0.13s;
+    }
+    .footer-links a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+    .footer-copyright {
+      opacity: 0.8;
+      font-size: 0.97em;
+      letter-spacing: 0.2px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0 }
+      to   { opacity: 1 }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(32px);}
+      to   { opacity: 1; transform: translateY(0);}
+    }
+    @media (max-width: 900px) {
+      .why-section, .features-cards-row {
+        flex-direction: column;
+        align-items: center;
+      }
+      .navbar-content {
+        flex-direction: column;
+        gap: 18px;
+      }
+      .why-content-side, .why-img-side {
+        min-width: 90vw;
+      }
+      .features-cards-row {
+        gap: 20px;
+      }
+      .hero-title {
+        font-size: 2.1rem;
+      }
+    }
+
+    .marquee-bar {
+    background: linear-gradient(90deg, #be7bf6cc 0%, #ffe441ee 85%);
+    border-radius: 16px;
+    min-width: 320px;
+    max-width: 320px;
+    height: 44px;
+    margin: 0 18px;
+    box-shadow: 0 2px 12px #963be333, 0 1px 8px #ffe44135;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 0 20px;
+    position: relative;
+    }
+
+    .marquee-text {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    font-weight: 900;
+    color: #421d79; /* 深紫色，和 header 同色調 */
+    font-size: 1.09em;
+    animation: marquee-move 12s linear infinite;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 6px #fff8, 0 1px 3px #be7bf6cc;
+    }
+
+    .marquee-car-img {
+    vertical-align: middle;
+    display: inline-block;
+    height: 22px;
+    margin-right: 12px;
+    margin-bottom: 2px;
+    filter: drop-shadow(0 2px 8px #ffe44190); /* 給車子微金光 */
+    }
+
+    @keyframes marquee-move {
+    0% { transform: translateX(50%);}
+    100% { transform: translateX(-100%);}
+    }
+
+    #loadingMask {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.22s;
+    }
+    #loadingMask.active {
+        display: flex !important;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+       .golden-glow {
+  color: #ffe441;
+  font-weight: 900;
+  text-shadow:
+    /* 黑色粗邊（外圍） */
+    -2px -2px 2px #222,
+    2px -2px 2px #222,
+    -2px 2px 2px #222,
+    2px 2px 2px #222,
+    /* 較細黑邊（銜接中間） */
+    -1px 0px 1px #222,
+    1px 0px 1px #222,
+    0px -1px 1px #222,
+    0px 1px 1px #222,
+    /* 金色發光（外圍） */
+    0 0 14px #ffd900cc,
+    0 0 2px #ffd900cc,
+    0 1px 6px #fff8,
+    0 0 18px #ffe441b0;
+}
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="navbar-content">
+      <div class="logo-row">
+        <img src="{% static 'TA12_logo_V2-removebg-preview.png' %}" alt="Logo"/>
+        <span class="site-title">ParkSpero Melbourne</span>
+      </div>
+      <!--<div class="search-bar">
+        <i class="lucide lucide-search"></i>
+        <input type="text" placeholder="Search for streets, areas..."/>
+      </div>-->
+      <div class="marquee-bar">
+        <span class="marquee-text">
+            <img class="marquee-car-img" src="{% static 'car-icon-gif-hd-png-download.png' %}" alt="car" />
+            G’day from ParkSpero Melbourne! TA12 brings you easier parking
+        </span>
+    </div>
+      <div class="nav-links">
+        <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"  href="{% url 'home' %}"><i class="lucide lucide-home"></i>Home</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'live_parking' %}active{% endif %}" href="{% url 'live_parking' %}"><i class="lucide lucide-info"></i>Live Parking</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'predictions' %}active{% endif %}" href="{% url 'predictions'%}"><i class="lucide lucide-bar-chart-3"></i>Predictions</a>
+        <a class="nav-link {% if request.resolver_match.url_name == 'analytics' %}active{% endif %}" href="{% url 'analytics'%}"><i class="lucide lucide-parking-circle"></i>Analytics</a>
+        <!--<a class="nav-link" href="#"><i class="lucide lucide-mail"></i>Contact</a>-->
+        <!-- <a class="nav-link" href="#"><i class="lucide lucide-file-text"></i>Report</a>
+        <button class="login-btn"><i class="lucide lucide-log-in"></i>Login</button> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <h1 class="hero-title">Welcome to the Ultimate<br>Parking Space Finder</h1>
+    <div class="hero-desc">Your smart guide to real-time parking, data insights, and safer, smoother commutes in Melbourne CBD.</div>
+    <button class="dashboard-btn" data-href="{% url 'live_parking' %}">
+      <i class="lucide lucide-sparkle"></i>
+      Try Live Dashboard
+    </button>
+  </section>
+
+  <!-- WHY CHOOSE SECTION -->
+  <section class="why-section">
+    <!-- 動畫：用 z-index 0，內容區 z-index 1+ -->
+    <div class="lottie-bg">
+        <lottie-player
+        src="{% static 'spaceship.json' %}"
+        background="transparent"
+        speed="1"
+        style="width: 700px; height: 700px;"
+        loop
+        autoplay
+        ></lottie-player>
+    </div>
+    <div class="why-main-content">
+    <h2 class="why-title">WHY CHOOSE OUR PARKING FINDER?</h2>
+    <ul class="why-list">
+        <li class="why-list-item">
+        <span class="why-icon-bullet">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff7d1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9 12l2 2 4-4" />
+            </svg>
+        </span>
+        Real-time parking availability updates to save your time.
+        </li>
+        <li class="why-list-item">
+        <span class="why-icon-bullet">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff7d1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9 12l2 2 4-4" />
+            </svg>
+        </span>
+        Integrated analytics system for smooth processing.
+        </li>
+        <li class="why-list-item">
+        <span class="why-icon-bullet">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff7d1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9 12l2 2 4-4" />
+            </svg>
+        </span>
+        User-friendly interface with intuitive navigation.
+        </li>
+        <li class="why-list-item">
+        <span class="why-icon-bullet">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff7d1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9 12l2 2 4-4" />
+            </svg>
+        </span>
+        Secure online payment options via UPI gateway.
+        </li>
+        <li class="why-list-item">
+        <span class="why-icon-bullet">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff7d1a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9 12l2 2 4-4" />
+            </svg>
+        </span>
+        Advanced analytics for optimal parking management.
+        </li>
+    </ul>
+    </div>
+
+</section>
+
+  <!-- FEATURES SECTION -->
+  <section class="hero-section">
+    <div class="features-title">COMMING SOON FEATURES</div>
+    <div class="features-cards-row">
+      <div class="feature-card">
+        <i class="lucide lucide-map-pin"></i>
+        <div class="feature-card-title">Find Parking</div>
+        <div class="feature-card-desc">Locate nearby parking spaces quickly with real-time data and avoid traffic congestion.</div>
+        <div class="card-tooltip">New Feature</div>
+      </div>
+      <div class="feature-card">
+        <i class="lucide lucide-dollar-sign"></i>
+        <div class="feature-card-title">Smarter Parking</div>
+        <div class="feature-card-desc">
+            Find open spots fast, get real-time tips from friends, and make greener choices—less stress, more time saved.
+        </div>
+        <div class="card-tooltip">New Feature</div>
+      </div>
+      <div class="feature-card">
+        <i class="lucide lucide-shield-check"></i>
+        <div class="feature-card-title">Secure Transactions</div>
+        <div class="feature-card-desc">All transactions are encrypted to ensure your data is safe and secure.</div>
+        <div class="card-tooltip">New Feature</div>
+      </div>
+    </div>
+  </section>
+
+
+<script>
+    function showLoadingMask() {
+    const mask = document.getElementById('loadingMask');
+    mask.style.display = 'flex';
+    setTimeout(() => mask.classList.add('active'), 10); // fade in
+    }
+
+    function hideLoadingMask() {
+    const mask = document.getElementById('loadingMask');
+    mask.classList.remove('active');
+    setTimeout(() => mask.style.display = 'none', 250);
+    }
+
+    // 所有 nav-link/button 點擊顯示 loading，1.2秒後跳轉
+    document.querySelectorAll('.nav-link, .dashboard-btn').forEach(link => {
+    link.addEventListener('click', function(e) {
+        if (link.target === "_blank" || (link.href && !link.href.startsWith(window.location.origin))) return;
+        e.preventDefault();
+        showLoadingMask();
+        setTimeout(() => {
+        // <a>
+        if (link.tagName === 'A') window.location.href = link.href;
+        // <button data-href>
+        else if (link.tagName === 'BUTTON' && link.dataset.href) window.location.href = link.dataset.href;
+        }, 1200);
+    });
+    });
+
+    // 若要每次換頁自動loading，可在 window.onload hide
+    window.onload = hideLoadingMask;
+</script>
+
+
+
+
+    <!-- 全頁 Loading 遮罩 -->
+    <div id="loadingMask"
+    style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;
+    background:rgba(32,18,77,0.16);backdrop-filter:blur(2.5px);
+    align-items:center;justify-content:center;transition:opacity .22s;">
+    <div style="background:#ffffff3c;border-radius:26px;padding:40px 60px;box-shadow:0 8px 28px #421d7999;
+        display:flex;flex-direction:column;align-items:center;gap:16px;">
+        <img src="{% static 'car_loading.gif' %}" alt="Loading..." style="width:450px;height:350px;display:block;">
+        <span class="golden-glow" style="font-size:3em;letter-spacing:.8px;">Loading…</span>
+    </div>
+    </div>
+
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-title">ParkSpot Melbourne</div>
+    <!-- <div class="footer-links">
+      <a href="{% url 'home' %}"></a>Home</a>
+      <a href="#">Live Parking</a>
+      <a href="#">Predictions</a>
+      <a href="#">Analytics</a>
+      <a href="#">Contact</a>
+    </div>-->
+    <div class="footer-copyright">
+      &copy; 2025 ParkSpot Melbourne. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>
