@@ -320,6 +320,21 @@
     0 1px 6px #fff8,
     0 0 18px #ffe441b0;
 }
+
+  .day-tab, .time-filter-btn {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 4px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: #421d79;
+  }
+  .day-tab.active, .time-filter-btn.active {
+    background: #732be7;
+    color: white;
+    border-color: #732be7;
+  }
   </style>
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -348,24 +363,66 @@
     </div>
   </div>
 
-  <!-- MAIN CONTENT -->
-  <div class="container">
-    <div class="charts-row">
-      <div class="chart-card">
-        <h3>Weekly Parking Patterns</h3>
-        <p>Average availability vs demand by day</p>
-        <canvas id="weeklyChart" class="chart-canvas"></canvas>
+<!-- MAIN CONTENT -->
+<div class="container">
+  <div class="charts-row" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+
+    <!-- Weekly Chart Section (Time of Day) -->
+    <div class="chart-card" style="grid-column: 1;">
+      <h3>Weekly Parking Patterns</h3>
+      <p>Average availability vs Demand by day</p>
+
+      <!-- Time of Day Filter -->
+      <div style="margin-bottom: 14px;">
+        <label style="font-weight:bold;color:#421d79;">Time of Day:</label>
+        <div style="margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="time-filter-btn active" data-time="Overall">Overall</button>
+          <button class="time-filter-btn" data-time="Morning">Morning</button>
+          <button class="time-filter-btn" data-time="Afternoon">Afternoon</button>
+          <button class="time-filter-btn" data-time="Evening">Evening</button>
+          <button class="time-filter-btn" data-time="Night">Night</button>
+        </div>
       </div>
-      <div class="chart-card">
-        <h3>Hourly Availability Trends</h3>
-        <p>Typical weekday parking availability</p>
-        <canvas id="hourlyChart" class="chart-canvas"></canvas>
-      </div>
+
+      <canvas id="weeklyChart" class="chart-canvas"></canvas>
     </div>
 
+    <!-- Hourly Chart Section (Select Days) -->
+<div class="chart-card">
+  <h3>Hourly Availability Trends</h3>
+  <p>Typical weekday parking availability</p>
+
+  <!-- Day Tabs -->
+  <div style="margin-bottom: 14px;">
+    <label style="font-weight:bold;color:#421d79;">Select Days:</label>
+    <div style="margin-top:6px;display:flex;gap:8px;">
+      <button id="tab-weekdays" class="day-tab">Weekdays</button>
+      <button id="tab-weekends" class="day-tab">Weekends</button>
+    </div>
+
+    <!-- Weekday checkboxes -->
+    <div id="weekday-checkboxes" style="display:none;margin-top:8px;">
+      <label><input type="checkbox" value="Mon" checked> Mon</label>
+      <label><input type="checkbox" value="Tue" checked> Tue</label>
+      <label><input type="checkbox" value="Wed" checked> Wed</label>
+      <label><input type="checkbox" value="Thu" checked> Thu</label>
+      <label><input type="checkbox" value="Fri" checked> Fri</label>
+    </div>
+
+    <!-- Weekend checkboxes -->
+    <div id="weekend-checkboxes" style="display:none;margin-top:8px;">
+      <label><input type="checkbox" value="Sat" checked> Sat</label>
+      <label><input type="checkbox" value="Sun" checked> Sun</label>
+    </div>
+  </div>
+
+  <canvas id="hourlyChart" class="chart-canvas"></canvas>
+</div>
 
 
-    <!-- IMPACT ANALYSIS BOX -->
+  </div>
+
+  <!-- IMPACT ANALYSIS BOX -->
     <div class="impact-box">
     <div class="impact-title">Impact Analysis</div>
     <div class="impact-subtitle">
@@ -396,100 +453,171 @@
     </div>
 
   </div>
+</div>
+
+
 
   
-  <script>
-    // 資料直接寫在 JS
-    const weeklyData = [
-      { day: "Mon", availability: 65, demand: 85 },
-      { day: "Tue", availability: 70, demand: 80 },
-      { day: "Wed", availability: 45, demand: 95 },
-      { day: "Thu", availability: 50, demand: 90 },
-      { day: "Fri", availability: 25, demand: 98 },
-      { day: "Sat", availability: 80, demand: 60 },
-      { day: "Sun", availability: 90, demand: 45 },
-    ];
-    const hourlyData = [
-      { hour: "6AM", availability: 95 },
-      { hour: "7AM", availability: 80 },
-      { hour: "8AM", availability: 45 },
-      { hour: "9AM", availability: 20 },
-      { hour: "10AM", availability: 35 },
-      { hour: "11AM", availability: 40 },
-      { hour: "12PM", availability: 25 },
-      { hour: "1PM", availability: 30 },
-      { hour: "2PM", availability: 35 },
-      { hour: "3PM", availability: 40 },
-      { hour: "4PM", availability: 30 },
-      { hour: "5PM", availability: 15 },
-      { hour: "6PM", availability: 45 },
-      { hour: "7PM", availability: 75 },
-    ];
+<script>
 
-    // Weekly Bar Chart
-    new Chart(document.getElementById('weeklyChart').getContext('2d'), {
-      type: 'bar',
-      data: {
-        labels: weeklyData.map(d => d.day),
-        datasets: [
-          {
-            label: 'Availability %',
-            data: weeklyData.map(d => d.availability),
-            backgroundColor: '#10b981',
-            borderRadius: 8,
-            barThickness: 24,
-          },
-          {
-            label: 'Demand %',
-            data: weeklyData.map(d => d.demand),
-            backgroundColor: '#732be7',
-            borderRadius: 8,
-            barThickness: 24,
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { position: 'top', labels: { color: '#421d79', font: { weight: 'bold', size: 14 } } },
-          tooltip: { mode: 'index', intersect: false }
-        },
-        scales: {
-          x: { ticks: { color: '#421d79', font: { weight: 'bold' } }, grid: { display: false } },
-          y: { beginAtZero: true, ticks: { color: '#421d79', stepSize: 20 }, grid: { color: '#e7d8fa55' } }
-        }
+  // 後端傳來的資料
+const weeklyData = {{ weeklyData|safe }};
+const hourlyData = {{ hourlyData|safe }};
+
+// --- Weekly Chart 初始化 (Time of Day 篩選) ---
+const weeklyChart = new Chart(document.getElementById('weeklyChart').getContext('2d'), {
+  type: 'bar',
+  data: buildWeeklyChartData("Overall"),
+  options: {
+    responsive: true,
+    plugins: {
+      legend: { position: 'top', labels: { color: '#421d79', font: { weight: 'bold', size: 14 } } },
+      tooltip: { mode: 'index', intersect: false }
+    },
+    scales: {
+      x: { ticks: { color: '#421d79', font: { weight: 'bold' } }, grid: { display: false } },
+      y: { beginAtZero: true, ticks: { color: '#421d79', stepSize: 20 }, grid: { color: '#e7d8fa55' } }
+    }
+  }
+});
+
+function buildWeeklyChartData(timeFilter) {
+  let filtered = [];
+
+  if (timeFilter === "Overall") {
+    // 先按 day 分組，平均 availability & demand
+    const grouped = {};
+    weeklyData.forEach(d => {
+      if (!grouped[d.day]) grouped[d.day] = { availability: 0, demand: 0, count: 0 };
+      grouped[d.day].availability += d.availability;
+      grouped[d.day].demand += d.demand;
+      grouped[d.day].count++;
+    });
+    filtered = Object.keys(grouped).map(day => ({
+      day,
+      availability: grouped[day].availability / grouped[day].count,
+      demand: grouped[day].demand / grouped[day].count
+    }));
+  } else {
+    // 單一時段過濾
+    filtered = weeklyData.filter(d => d.timeOfDay === timeFilter);
+  }
+
+  // 固定週日開始排序
+  const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  filtered.sort((a, b) => dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day));
+
+  return {
+    labels: filtered.map(d => d.day),
+    datasets: [
+      { label: 'Availability %', data: filtered.map(d => d.availability), backgroundColor: '#10b981', borderRadius: 8, barThickness: 24 },
+      { label: 'Demand %', data: filtered.map(d => d.demand), backgroundColor: '#732be7', borderRadius: 8, barThickness: 24 }
+    ]
+  };
+}
+
+// --- Time of Day 按鈕 ---
+document.querySelectorAll('.time-filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.time-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const timeFilter = btn.dataset.time;
+    weeklyChart.data = buildWeeklyChartData(timeFilter);
+    weeklyChart.update();
+  });
+});
+
+// --- Hourly Chart 初始化 (Weekdays / Weekends + checkbox) ---
+const hourlyChart = new Chart(document.getElementById('hourlyChart').getContext('2d'), {
+  type: 'line',
+  data: buildHourlyChartData(['Mon', 'Tue', 'Wed', 'Thu', 'Fri']),
+  options: {
+    responsive: true,
+    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+    scales: {
+      x: { ticks: { color: '#421d79', font: { weight: 'bold' } }, grid: { display: false } },
+      y: { beginAtZero: true, ticks: { color: '#421d79', stepSize: 20 }, grid: { color: '#e7d8fa55' } }
+    }
+  }
+});
+
+function buildHourlyChartData(selectedDays) {
+  const grouped = {};
+
+  hourlyData
+    .filter(d => selectedDays.includes(d.day))
+    .forEach(d => {
+      if (!grouped[d.hour]) {
+        grouped[d.hour] = { total: 0, count: 0 };
       }
+      grouped[d.hour].total += d.availability;
+      grouped[d.hour].count++;
     });
 
-    // Hourly Line Chart
-    new Chart(document.getElementById('hourlyChart').getContext('2d'), {
-      type: 'line',
-      data: {
-        labels: hourlyData.map(d => d.hour),
-        datasets: [{
-          label: 'Availability %',
-          data: hourlyData.map(d => d.availability),
-          borderColor: '#10b981',
-          backgroundColor: 'rgba(16,185,129,0.1)',
-          pointBackgroundColor: '#10b981',
-          pointBorderColor: '#fff',
-          pointRadius: 4,
-          fill: true,
-          tension: 0.42,
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: { display: false },
-          tooltip: { mode: 'index', intersect: false }
-        },
-        scales: {
-          x: { ticks: { color: '#421d79', font: { weight: 'bold' } }, grid: { display: false } },
-          y: { beginAtZero: true, ticks: { color: '#421d79', stepSize: 20 }, grid: { color: '#e7d8fa55' } }
-        }
-      }
-    });
+  const labels = Object.keys(grouped).map(h => {
+    const hour = parseInt(h, 10);
+    const suffix = hour >= 12 ? 'PM' : 'AM';
+    const displayHour = (hour % 12 === 0 ? 12 : hour % 12) + suffix;
+    return displayHour;
+  });
+
+  const avgAvailability = Object.keys(grouped).map(hour => grouped[hour].total / grouped[hour].count);
+
+  return {
+    labels,
+    datasets: [{
+      label: 'Availability %',
+      data: avgAvailability,
+      borderColor: '#10b981',
+      backgroundColor: 'rgba(16,185,129,0.1)',
+      pointBackgroundColor: '#10b981',
+      pointBorderColor: '#fff',
+      pointRadius: 4,
+      fill: true,
+      tension: 0.42
+    }]
+  };
+}
+
+
+// --- 預設啟用 Weekdays tab ---
+document.getElementById('tab-weekdays').classList.add('active');
+document.getElementById('weekday-checkboxes').style.display = '';
+document.getElementById('weekend-checkboxes').style.display = 'none';
+
+// --- Hourly Chart Tabs (Weekdays / Weekends) ---
+document.querySelectorAll('.day-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    document.getElementById('weekday-checkboxes').style.display = (tab.id === 'tab-weekdays') ? '' : 'none';
+    document.getElementById('weekend-checkboxes').style.display = (tab.id === 'tab-weekends') ? '' : 'none';
+
+    updateHourlyChart();
+  });
+});
+
+// --- Checkbox change ---
+document.querySelectorAll('#weekday-checkboxes input, #weekend-checkboxes input')
+  .forEach(cb => cb.addEventListener('change', updateHourlyChart));
+
+function updateHourlyChart() {
+  let selectedDays = [];
+
+  if (document.getElementById('weekday-checkboxes').style.display !== 'none') {
+    selectedDays = Array.from(document.querySelectorAll('#weekday-checkboxes input:checked')).map(c => c.value);
+  } else {
+    selectedDays = Array.from(document.querySelectorAll('#weekend-checkboxes input:checked')).map(c => c.value);
+  }
+
+  hourlyChart.data = buildHourlyChartData(selectedDays);
+  hourlyChart.update();
+}
+
+
+
+    
 
           function showLoadingMask() {
       const mask = document.getElementById('loadingMask');

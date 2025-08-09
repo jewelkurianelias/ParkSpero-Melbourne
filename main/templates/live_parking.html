@@ -85,7 +85,7 @@
 }
 #parkingMap {
     width: 100% !important;
-    height: 460px !important;
+    height: 570px !important;
     min-height: 240px;
     border-radius: 22px;
     background: none !important;
@@ -226,6 +226,30 @@
     0 1px 6px #fff8,
     0 0 18px #ffe441b0;
 }
+
+/* 放在 live_parking.css 或 <style> 裡 */
+.refresh-highlight {
+    border: 3px solid transparent;
+    border-radius: 8px;
+    background-image: linear-gradient(white, white), 
+                      linear-gradient(90deg, gold, orange, gold);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    animation: border-glow 1s linear infinite;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+}
+
+@keyframes border-glow {
+    0% {
+        box-shadow: 0 0 5px gold, 0 0 10px orange;
+    }
+    50% {
+        box-shadow: 0 0 15px orange, 0 0 30px gold;
+    }
+    100% {
+        box-shadow: 0 0 5px gold, 0 0 10px orange;
+    }
+}
   </style>
 </head>
 <body>
@@ -277,9 +301,8 @@
             </div>
             </div>
             <div class="action-btns">
-            <button class="btn-action"><i class="lucide lucide-map-pin"></i> Find Near Me</button>
-            <button class="btn-action"><i class="lucide lucide-zap"></i> Smart Suggest</button>
-            <button class="btn-action"><i class="lucide lucide-refresh-cw"></i> Refresh</button>
+            <!--<button class="btn-action"><i class="lucide lucide-map-pin"></i> Find Near Me</button>
+            <button class="btn-action"><i class="lucide lucide-zap"></i> Smart Suggest</button>-->
         </div>
     </div>
     <!-- Google Map 區塊 -->
@@ -289,46 +312,54 @@
     </div>
     <!-- Right: Available Parking Spots -->
     <div class="side-section">
-      <div class="side-card">
-        <div class="side-header">
-          <span class="side-title">Available Parking Spots</span>
-          <div class="side-tools">
-            <button class="side-btn" id="filterBtn"><i class="lucide lucide-filter"></i> Filter</button>
-            <button class="side-btn" id="sortBtn"><i class="lucide lucide-list-filter"></i> Sort</button>
-          </div>
-        </div>
-        <div class="parking-list">
-          {% for spot in parking_spots %}
-          <div class="parking-spot-card" tabindex="0" data-index="{{ forloop.counter0 }}">
-            <div class="card-row">
-              <div>
-                <div class="spot-name">{{ spot.name }}</div>
-                <div class="spot-address">{{ spot.address }}</div>
-              </div>
-              <span class="badge-available {{ spot.badge }}">
-                {{ spot.available }}/{{ spot.total }} available
-              </span>
-            </div>
-            <div class="card-row2">
-              <span class="walk-dist"><i class="lucide lucide-map-pin"></i> {{ spot.distance }}</span>
-              <span class="walk-time"><i class="lucide lucide-clock"></i> {{ spot.walkTime }} walk</span>
-              <span class="price-tag">{{ spot.price }}</span>
-            </div>
-            <div class="status-row">
-              {% if spot.prediction == 'decreasing' %}
-                <span class="status-dot status-decreasing"><i class="lucide lucide-trending-down"></i> Filling up</span>
-              {% elif spot.prediction == 'stable' %}
-                <span class="status-dot status-stable"><i class="lucide lucide-minus"></i> Stable</span>
-              {% elif spot.prediction == 'increasing' %}
-                <span class="status-dot status-increasing"><i class="lucide lucide-trending-up"></i> More spots soon</span>
-              {% endif %}
-            </div>
-            <div class="hover-tip"><i class="lucide lucide-info"></i> Click for details</div>
-          </div>
-          {% endfor %}
-        </div>
+  <div class="side-card">
+    
+    <!-- Header + 工具列 -->
+    <div class="side-header">
+      <span class="side-title">Available Parking Spots</span>
+      <div class="side-tools">
+        <button class="side-btn" id="filterBtn">
+          <i class="lucide lucide-filter"></i> Filter
+        </button>
+        <button class="btn-action"><i class="lucide lucide-refresh-cw"></i> Refresh</button>
       </div>
     </div>
+    <p>Find the best parking spots near you with real-time availability and walking distance.</p>
+
+    <!-- 停車列表 -->
+    <div class="parking-list">
+      {% for spot in parking_spots %}
+      <div class="parking-spot-card" tabindex="0" data-index="{{ forloop.counter0 }}">
+        <div class="card-row">
+          <div>
+            <div class="spot-name">{{ spot.name }}</div>
+            <div class="spot-address">{{ spot.address }}</div>
+          </div>
+          <span class="badge-available {{ spot.badge }}">
+            {{ spot.available }}/{{ spot.total }} available
+          </span>
+        </div>
+        <div class="card-row2">
+          <span class="walk-dist"><i class="lucide lucide-map-pin"></i> {{ spot.distance }}</span>
+          <span class="walk-time"><i class="lucide lucide-clock"></i> {{ spot.walkTime }} walk</span>
+          <!--<span class="price-tag">{{ spot.price }}</span>-->
+        </div>
+        <div class="status-row">
+          {% if spot.prediction == 'decreasing' %}
+            <span class="status-dot status-decreasing"><i class="lucide lucide-trending-down"></i> Filling up</span>
+          {% elif spot.prediction == 'stable' %}
+            <span class="status-dot status-stable"><i class="lucide lucide-minus"></i> Stable</span>
+          {% elif spot.prediction == 'increasing' %}
+            <span class="status-dot status-increasing"><i class="lucide lucide-trending-up"></i> More spots soon</span>
+          {% endif %}
+        </div>
+        <div class="hover-tip"><i class="lucide lucide-info"></i> Click for details</div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
   </div>
 
   <!-- Modal (hidden by default) -->
@@ -344,6 +375,7 @@
   <div class="custom-toast" id="toast"><i class="lucide lucide-loader-2"></i> <span id="toastMsg"></span></div>
 
   <script>
+
     // Filter/Sort 動畫 (Toast)
     function showToast(msg) {
       var toast = document.getElementById('toast');
@@ -354,9 +386,6 @@
     }
     document.getElementById('filterBtn').onclick = function() {
       showToast('Filtering options loaded!');
-    }
-    document.getElementById('sortBtn').onclick = function() {
-      showToast('Sorting by closest/cheapest...');
     }
 
       // Django 傳過來的 marker 資料
@@ -386,7 +415,7 @@
     setTimeout(() => toast.classList.remove('active'), 1600);
   }
   document.getElementById('filterBtn').onclick = function() { showToast('Filtering options loaded!'); }
-  document.getElementById('sortBtn').onclick = function() { showToast('Sorting by closest/cheapest...'); }
+  // document.getElementById('sortBtn').onclick = function() { showToast('Sorting by closest...'); }
 
   // Modal 彈窗 for Spot Card
   document.querySelectorAll('.parking-spot-card').forEach((card, idx) => {
@@ -397,7 +426,6 @@
         <div style="font-size:1.08em; margin-bottom:8px; color:#8952e7;"><b>Address:</b> ${spot.address}</div>
         <div><b>Available:</b> ${spot.available}/${spot.total}</div>
         <div><b>Walking distance:</b> ${spot.distance}, <b>Time:</b> ${spot.walkTime}</div>
-        <div><b>Price:</b> <span style="color:#8e14e6;">${spot.price}</span></div>
         <div><b>Status:</b> ${
           spot.prediction === 'decreasing'
             ? '<span style="color:#e40a1e;font-weight:700"><i class="lucide lucide-trending-down"></i> Filling up soon</span>'
@@ -436,23 +464,23 @@
       img.src = "{% static 'parking-sign-lightblue.png' %}";
       img.style.width = "32px";
       img.style.height = "32px";
-      img.style.transform = "translate(-16px, -32px)";
+      img.style.transform = "translate(0px, 0px)";
       img.style.pointerEvents = "none";
       return img;
     })()
   });
 
-    const infoHtml = `
-      <div style="font-size:1.05em;min-width:160px;">
-        <b>${spot.name}</b><br>
-        ${spot.address}<br>
-        <span style="color:#059640;font-weight:600;">${spot.available}/${spot.total} available</span><br>
-        <span style="color:#8e14e6;font-weight:600;">${spot.price}</span>
-      </div>
-    `;
+const infoHtml = `
+  <div style="font-size:0.95em;min-width:150px;padding:3px 5px;line-height:1.2;">
+    <b style="color:#5b2c91;">${spot.name}</b><br>
+    <span style="color:#555;">${spot.address}</span><br>
+    <span style="color:#059640;font-weight:600;">${spot.available}/${spot.total} available</span><br>
+    <span style="color:#8e14e6;font-weight:600;">${spot.price}</span>
+  </div>
+`;
     const infowindow = new google.maps.InfoWindow({ content: infoHtml });
-    marker.addListener("click", function() {
-      infowindow.open(map, marker);
+    marker.addListener("click", () => {
+      infowindow.open({ anchor: marker, map, shouldFocus: false });
     });
   });
 }
@@ -488,6 +516,114 @@
 
     // 若要每次換頁自動loading，可在 window.onload hide
     window.onload = hideLoadingMask;
+
+
+   // Refresh 功能
+function refreshParkingList() {
+    const list = document.querySelector('.parking-list');
+    list.classList.add('refresh-highlight');
+
+    fetch("{% url 'live_parking_api' %}")
+        .then(res => res.json())
+        .then(data => {
+            list.innerHTML = "";
+
+            data.forEach(spot => {
+                list.innerHTML += `
+                <div class="parking-spot-card">
+                    <div class="card-row">
+                        <div>
+                            <div class="spot-name">${spot.name}</div>
+                            <div class="spot-address">${spot.address}</div>
+                        </div>
+                        <span class="badge-available ${spot.badge}">
+                            ${spot.available}/${spot.total} available
+                        </span>
+                    </div>
+                    <div class="card-row2">
+                        <span class="walk-dist"><i class="lucide lucide-map-pin"></i> ${spot.distance}</span>
+                        <span class="walk-time"><i class="lucide lucide-clock"></i> ${spot.walkTime} walk</span>
+                    </div>
+                    <div class="status-row">
+                        ${
+                            spot.prediction === 'decreasing'
+                                ? '<span class="status-dot status-decreasing"><i class="lucide lucide-trending-down"></i> Filling up</span>'
+                                : spot.prediction === 'stable'
+                                ? '<span class="status-dot status-stable"><i class="lucide lucide-minus"></i> Stable</span>'
+                                : '<span class="status-dot status-increasing"><i class="lucide lucide-trending-up"></i> More spots soon</span>'
+                        }
+                    </div>
+                </div>
+                `;
+            });
+
+            if (window.lucide) lucide.createIcons();
+            setTimeout(() => list.classList.remove('refresh-highlight'), 2000);
+        })
+        .catch(err => {
+            console.error("Refresh failed", err);
+            list.classList.remove('refresh-highlight');
+        });
+}
+
+// 原本 Refresh 按鈕
+document.querySelector('.btn-action').addEventListener('click', refreshParkingList);
+
+// Reset 按鈕同樣功能
+// document.querySelector('.btn-reset').addEventListener('click', refreshParkingList);
+
+
+
+
+// 篩選：有空位 + 距離 < 1km + 價格 <= 6
+document.getElementById('filterBtn').onclick = function () {
+  const filtered = parkingSpots.filter(spot => {
+    const distNum = parseFloat(spot.distance);
+    const distInKm = spot.distance.includes("km") ? distNum : distNum / 1000;
+    return spot.available > 0 && distInKm <= 0.4;
+  });
+  renderParkingList(filtered);
+  showToast('Filtered: under 400m with available spots');
+};
+
+
+
+// 渲染列表（Filter）
+function renderParkingList(listData) {
+  const list = document.querySelector('.parking-list');
+  list.innerHTML = "";
+  listData.forEach(spot => {
+    list.innerHTML += `
+      <div class="parking-spot-card">
+        <div class="card-row">
+          <div>
+            <div class="spot-name">${spot.name}</div>
+            <div class="spot-address">${spot.address}</div>
+          </div>
+          <span class="badge-available ${spot.badge}">
+            ${spot.available}/${spot.total} available
+          </span>
+        </div>
+        <div class="card-row2">
+          <span class="walk-dist"><i class="lucide lucide-map-pin"></i> ${spot.distance}</span>
+          <span class="walk-time"><i class="lucide lucide-clock"></i> ${spot.walkTime} walk</span>
+          <span class="price-tag">${spot.price}</span>
+        </div>
+        <div class="status-row">
+          ${
+            spot.prediction === 'decreasing'
+              ? '<span class="status-dot status-decreasing"><i class="lucide lucide-trending-down"></i> Filling up</span>'
+              : spot.prediction === 'stable'
+              ? '<span class="status-dot status-stable"><i class="lucide lucide-minus"></i> Stable</span>'
+              : '<span class="status-dot status-increasing"><i class="lucide lucide-trending-up"></i> More spots soon</span>'
+          }
+        </div>
+      </div>
+    `;
+  });
+  if (window.lucide) lucide.createIcons();
+}
+
 
   </script>
 
