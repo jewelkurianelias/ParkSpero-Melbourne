@@ -15,7 +15,6 @@ db.sqlite3-journal
 
 # If using Django collectstatic
 staticfiles/
-static/
 static_cdn/
 
 # Environment variables
