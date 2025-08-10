@@ -36,7 +36,7 @@
         background: #fff;
         border-radius: 20px;
         box-shadow: 0 2px 14px #be7bf655;
-        padding: 20px 24px 20px 24px;  /* 上下都多一點 */
+        padding: 20px 24px 20px 24px;  /* A little more on both sides*/
         margin-bottom: 18px;
     }
 
@@ -44,10 +44,10 @@
     .main-card p { color: #555; font-size: 1em; font-weight: 500; margin-bottom: 18px;}
     .spot-balls {
   display: flex;
-  justify-content: center;   /* 水平置中 */
+  justify-content: center;   /* Horizontal centering*/
   align-items: flex-start;
-  gap: 48px;                 /* 間距可調大一點更對稱 */
-  margin: 26px 0 18px 0;     /* 上下間距 */
+  gap: 48px;                 /* The spacing can be adjusted to be a little larger for better symmetry.*/
+  margin: 26px 0 18px 0;     /* vertical spacing */
 }
     .spot-ball { display: flex; flex-direction: column; align-items: center; cursor: pointer; min-width: 90px;}
     .spot-circle { width: 24px; height: 24px; border-radius: 50%; margin-bottom: 4px;}
@@ -61,9 +61,9 @@
     .spot-desc.red { color: #d30820;}
     .action-btns {
   display: flex;
-  justify-content: center;   /* 水平置中 */
-  gap: 22px;                 /* 按鈕之間距離 */
-  margin: 15px 0 0 0;        /* 往上拉近一點 */
+  justify-content: center;   /* Horizontal center alignment */
+  gap: 22px;                 /* Distance between buttons*/
+  margin: 15px 0 0 0;        /* Zoom in a little. */
 }
     .btn-action { background: #111; color: #fff; border: none; border-radius: 13px; font-size: 1em; padding: 10px 30px; font-weight: 700; cursor: pointer; transition: background 0.15s; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px #ccc1;}
     .btn-action:hover { background: #2d0c7b;}
@@ -79,7 +79,7 @@
     padding: 0 !important;
     box-sizing: border-box;
     width: 100%;
-    /* 新增確保100% */
+    /* Newly added to ensure 100% */
     display: flex;
     flex-direction: column;
 }
@@ -93,7 +93,7 @@
     padding: 0 !important;
     overflow: hidden;
     box-sizing: border-box;
-    /* 最重要！ */
+    /* Most important! */
     display: block;
 }
 
@@ -210,24 +210,24 @@
   color: #ffe441;
   font-weight: 900;
   text-shadow:
-    /* 黑色粗邊（外圍） */
+    /* Black thick border (outer edge) */
     -2px -2px 2px #222,
     2px -2px 2px #222,
     -2px 2px 2px #222,
     2px 2px 2px #222,
-    /* 較細黑邊（銜接中間） */
+    /* Thinner black border (connecting the middle) */
     -1px 0px 1px #222,
     1px 0px 1px #222,
     0px -1px 1px #222,
     0px 1px 1px #222,
-    /* 金色發光（外圍） */
+    /* Golden glow (periphery) */
     0 0 14px #ffd900cc,
     0 0 2px #ffd900cc,
     0 1px 6px #fff8,
     0 0 18px #ffe441b0;
 }
 
-/* 放在 live_parking.css 或 <style> 裡 */
+/* Place it in live_parking.css or <style>. */
 .refresh-highlight {
     border: 3px solid transparent;
     border-radius: 8px;
@@ -283,29 +283,29 @@
         <div class="main-card">
             <h3>Discover Real-Time Parking in Melbourne CBD</h3>
             <p>No more circling for hours—check real-time spot availability, arrive and secure your spot instantly.</p>
-            <div class="spot-balls">
-            <div class="spot-ball">
-                <div class="spot-circle spot-green"></div>
-                <span class="spot-title">Collins St</span>
-                <span class="spot-desc green">Plenty of spaces</span>
-            </div>
-            <div class="spot-ball">
-                <div class="spot-circle spot-yellow"></div>
-                <span class="spot-title">Bourke St</span>
-                <span class="spot-desc yellow">Moderate</span>
-            </div>
-            <div class="spot-ball">
-                <div class="spot-circle spot-red"></div>
-                <span class="spot-title">Flinders St</span>
-                <span class="spot-desc red">Filling up fast</span>
-            </div>
+            <div class="spot-balls" id="spotBalls">
+              <!--<div class="spot-ball">
+                  <div class="spot-circle spot-green"></div>
+                  <span class="spot-title">Collins St</span>
+                  <span class="spot-desc green">Plenty of spaces</span>
+              </div>
+              <div class="spot-ball">
+                  <div class="spot-circle spot-yellow"></div>
+                  <span class="spot-title">Bourke St</span>
+                  <span class="spot-desc yellow">Moderate</span>
+              </div>
+              <div class="spot-ball">
+                  <div class="spot-circle spot-red"></div>
+                  <span class="spot-title">Flinders St</span>
+                  <span class="spot-desc red">Filling up fast</span>
+              </div>-->
             </div>
             <div class="action-btns">
             <!--<button class="btn-action"><i class="lucide lucide-map-pin"></i> Find Near Me</button>
             <button class="btn-action"><i class="lucide lucide-zap"></i> Smart Suggest</button>-->
         </div>
     </div>
-    <!-- Google Map 區塊 -->
+    <!-- Google Map block -->
     <div class="gmap-card">
         <div id="parkingMap" style="width:100%;height:340px;border-radius:22px;"></div>
     </div>
@@ -314,7 +314,7 @@
     <div class="side-section">
   <div class="side-card">
     
-    <!-- Header + 工具列 -->
+    <!-- Header + Toolbar -->
     <div class="side-header">
       <span class="side-title">Available Parking Spots</span>
       <div class="side-tools">
@@ -326,7 +326,7 @@
     </div>
     <p>Find the best parking spots near you with real-time availability and walking distance.</p>
 
-    <!-- 停車列表 -->
+    <!-- Parking list -->
     <div class="parking-list">
       {% for spot in parking_spots %}
       <div class="parking-spot-card" tabindex="0" data-index="{{ forloop.counter0 }}">
@@ -374,54 +374,113 @@
   <!-- Toast -->
   <div class="custom-toast" id="toast"><i class="lucide lucide-loader-2"></i> <span id="toastMsg"></span></div>
 
-  <script>
+<script>
+/* =========================
+   Toast (small bottom alert)
+   ========================= */
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  const msgbox = document.getElementById('toastMsg');
+  msgbox.innerText = msg;
+  toast.classList.add('active');
+  setTimeout(() => toast.classList.remove('active'), 1600);
+}
 
-    // Filter/Sort 動畫 (Toast)
-    function showToast(msg) {
-      var toast = document.getElementById('toast');
-      var msgbox = document.getElementById('toastMsg');
-      msgbox.innerText = msg;
-      toast.classList.add('active');
-      setTimeout(() => toast.classList.remove('active'), 1600);
+/* ==========================================
+   Initial data injected from Django template
+   ========================================== */
+const parkingSpots = [
+  {% for spot in parking_spots %}
+  {
+    name: "{{ spot.name|escapejs }}",
+    address: "{{ spot.address|escapejs }}",
+    available: {{ spot.available }},
+    total: {{ spot.total }},
+    distance: "{{ spot.distance|escapejs }}",
+    walkTime: "{{ spot.walkTime|escapejs }}",
+    price: "{{ spot.price|escapejs }}",
+    prediction: "{{ spot.prediction|escapejs }}",  // decreasing | stable | increasing
+    badge: "{{ spot.badge|default_if_none:''|escapejs }}", // red | yellow | green
+    lat: {{ spot.lat }},
+    lng: {{ spot.lng }}
+  }{% if not forloop.last %},{% endif %}
+  {% endfor %}
+];
+
+/* ==========================================================
+   Left 3 dynamic dots (always 1 red, 1 green, 1 yellow)
+   ========================================================== */
+function ratio(s) { return s.total > 0 ? s.available / s.total : 0; }
+
+function renderSpotBalls(listData) {
+  const box = document.getElementById('spotBalls');
+  if (!box) return;
+
+  const list = (listData && listData.length ? listData : parkingSpots).slice();
+
+  // Candidate pools by color/prediction
+  const redPool = list
+    .filter(s => (s.badge||'').includes('red') || s.prediction === 'decreasing')
+    .sort((a,b) => ratio(a) - ratio(b)); // more crowded first
+
+  const greenPool = list
+    .filter(s => (s.badge||'').includes('green') || s.prediction === 'increasing')
+    .sort((a,b) => ratio(b) - ratio(a)); // more empty first
+
+  const yellowPool = list
+    .filter(s => (s.badge||'').includes('yellow') || s.prediction === 'stable')
+    .sort((a,b) => Math.abs(0.5 - ratio(a)) - Math.abs(0.5 - ratio(b))); // closest to middle
+
+  // Fallbacks if any pool is empty
+  const fallbackMostCrowded = list.slice().sort((a,b)=>ratio(a)-ratio(b));
+  const fallbackMostEmpty   = list.slice().sort((a,b)=>ratio(b)-ratio(a));
+  const fallbackMiddle      = list.slice().sort((a,b)=>Math.abs(0.5-ratio(a)) - Math.abs(0.5-ratio(b)));
+
+  const picks = [];
+  const seen  = new Set();
+  function takeOne(pool) {
+    for (const s of pool) {
+      const key = s.name + '|' + s.address;
+      if (!seen.has(key)) { seen.add(key); picks.push(s); return; }
     }
-    document.getElementById('filterBtn').onclick = function() {
-      showToast('Filtering options loaded!');
-    }
-
-      // Django 傳過來的 marker 資料
-  const parkingSpots = [
-    {% for spot in parking_spots %}
-      {
-        name: "{{ spot.name|escapejs }}",
-        address: "{{ spot.address|escapejs }}",
-        available: {{ spot.available }},
-        total: {{ spot.total }},
-        distance: "{{ spot.distance|escapejs }}",
-        walkTime: "{{ spot.walkTime|escapejs }}",
-        price: "{{ spot.price|escapejs }}",
-        prediction: "{{ spot.prediction|escapejs }}",
-        lat: {{ spot.lat }},
-        lng: {{ spot.lng }}
-      }{% if not forloop.last %},{% endif %}
-    {% endfor %}
-  ];
-
-  // Filter/Sort Toast
-  function showToast(msg) {
-    var toast = document.getElementById('toast');
-    var msgbox = document.getElementById('toastMsg');
-    msgbox.innerText = msg;
-    toast.classList.add('active');
-    setTimeout(() => toast.classList.remove('active'), 1600);
   }
-  document.getElementById('filterBtn').onclick = function() { showToast('Filtering options loaded!'); }
-  // document.getElementById('sortBtn').onclick = function() { showToast('Sorting by closest...'); }
 
-  // Modal 彈窗 for Spot Card
-  document.querySelectorAll('.parking-spot-card').forEach((card, idx) => {
-    card.onclick = function(e) {
-      const spot = parkingSpots[idx];
-      document.getElementById('modalTitle').innerHTML = `<i class="lucide lucide-parking-circle"></i> ${spot.name}`;
+  // Force pick: red -> green -> yellow
+  takeOne(redPool.length ? redPool : fallbackMostCrowded);
+  takeOne(greenPool.length ? greenPool : fallbackMostEmpty);
+  takeOne(yellowPool.length ? yellowPool : fallbackMiddle);
+
+  // Render 3 dots
+  const items = picks.map((s, idx) => {
+    const role = idx === 0 ? 'red' : idx === 1 ? 'green' : 'yellow';
+    const circleClass = role === 'red' ? 'spot-red' : role === 'green' ? 'spot-green' : 'spot-yellow';
+    const descText = role === 'red' ? 'Avoid now' : role === 'green' ? 'Recommended' : 'Stable / moderate';
+
+    return `
+      <div class="spot-ball" tabindex="0" title="${s.available}/${s.total} available • ${s.distance}, ${s.walkTime}">
+        <div class="spot-circle ${circleClass}"></div>
+        <span class="spot-title">${s.name}</span>
+        <span class="spot-desc ${role}">${descText}</span>
+      </div>
+    `;
+  });
+
+  box.innerHTML = items.join('');
+  if (window.lucide) lucide.createIcons();
+}
+
+/* ==========================================================
+   Right list rendering + Modal bindings
+   ========================================================== */
+function rebindCardClicks(currentList) {
+  const cards = document.querySelectorAll('.parking-spot-card');
+  cards.forEach((card, idx) => {
+    card.onclick = () => {
+      const spot = currentList[idx];
+
+      // Open modal (original behavior)
+      document.getElementById('modalTitle').innerHTML =
+        `<i class="lucide lucide-parking-circle"></i> ${spot.name}`;
       document.getElementById('modalContent').innerHTML = `
         <div style="font-size:1.08em; margin-bottom:8px; color:#8952e7;"><b>Address:</b> ${spot.address}</div>
         <div><b>Available:</b> ${spot.available}/${spot.total}</div>
@@ -436,198 +495,235 @@
       `;
       document.getElementById('spotModal').classList.add('active');
       setTimeout(() => { if (window.lucide) lucide.createIcons(); }, 10);
-    }
-    card.onkeydown = function(e) { if (e.key === 'Enter') card.click(); }
-  });
-  function closeModal() { document.getElementById('spotModal').classList.remove('active'); }
-  document.getElementById('spotModal').onclick = function(e) { if (e.target === this) closeModal(); };
-  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 
-  // Google Map 初始化
-  function initParkingMap() {
+      // NEW: also focus the map & open the marker for this spot
+      openSpotOnMap(spot);
+    };
+    card.onkeydown = (e) => { if (e.key === 'Enter') card.click(); };
+  });
+}
+
+function renderParkingList(listData) {
+  const list = document.querySelector('.parking-list');
+  list.innerHTML = listData.map(spot => `
+    <div class="parking-spot-card" tabindex="0">
+      <div class="card-row">
+        <div>
+          <div class="spot-name">${spot.name}</div>
+          <div class="spot-address">${spot.address}</div>
+        </div>
+        <span class="badge-available ${spot.badge}">
+          ${spot.available}/${spot.total} available
+        </span>
+      </div>
+      <div class="card-row2">
+        <span class="walk-dist"><i class="lucide lucide-map-pin"></i> ${spot.distance}</span>
+        <span class="walk-time"><i class="lucide lucide-clock"></i> ${spot.walkTime} walk</span>
+      </div>
+      <div class="status-row">
+        ${
+          spot.prediction === 'decreasing'
+            ? '<span class="status-dot status-decreasing"><i class="lucide lucide-trending-down"></i> Filling up</span>'
+            : spot.prediction === 'stable'
+            ? '<span class="status-dot status-stable"><i class="lucide lucide-minus"></i> Stable</span>'
+            : '<span class="status-dot status-increasing"><i class="lucide lucide-trending-up"></i> More spots soon</span>'
+        }
+      </div>
+    </div>
+  `).join('');
+  if (window.lucide) lucide.createIcons();
+  rebindCardClicks(listData);
+}
+
+/* =========================
+   Modal close interactions
+   ========================= */
+function closeModal() { document.getElementById('spotModal').classList.remove('active'); }
+document.getElementById('spotModal').onclick = (e) => { if (e.target === e.currentTarget) closeModal(); };
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+/* =========================
+   Google Map + markers (fixed)
+   ========================= */
+// Globals for map/markers
+let _map, _markers = [], _infoWindow;
+
+// Index to find markers by spot (keyed by "lat,lng")
+const _markerByKey = new Map();
+const spotKey = s => `${s.lat},${s.lng}`;
+
+function initParkingMap() {
   const center = { lat: -37.814, lng: 144.96332 };
-  const map = new google.maps.Map(document.getElementById('parkingMap'), {
-    center: center,
+  _map = new google.maps.Map(document.getElementById('parkingMap'), {
+    center,
     zoom: 15,
-    mapId: "DEMO_MAP_ID", // 測試用 mapId，建議換自己的
+    mapId: "DEMO_MAP_ID",
     streetViewControl: false,
     fullscreenControl: false
   });
 
-  parkingSpots.forEach(spot => {
+  // Reuse a single InfoWindow instance
+  _infoWindow = new google.maps.InfoWindow();
+
+  drawMarkers(parkingSpots);
+}
+
+function drawMarkers(list) {
+  if (!_map) return;
+
+  // Clear old markers and index
+  _markers.forEach(m => (m.map = null));
+  _markers = [];
+  _markerByKey.clear();
+
+  list.forEach(spot => {
+    // Custom marker content (image)
+    const img = document.createElement('img');
+    img.src = "{% static 'parking-sign-lightblue.png' %}";
+    img.style.width = "32px";
+    img.style.height = "32px";
+    img.style.display = "block";
+    img.style.cursor = "pointer";
+
     const marker = new google.maps.marker.AdvancedMarkerElement({
-    map: map,
-    position: { lat: spot.lat, lng: spot.lng },
-    title: spot.name,
-    content: (() => {
-      const img = document.createElement('img');
-      img.src = "{% static 'parking-sign-lightblue.png' %}";
-      img.style.width = "32px";
-      img.style.height = "32px";
-      img.style.transform = "translate(0px, 0px)";
-      img.style.pointerEvents = "none";
-      return img;
-    })()
-  });
-
-const infoHtml = `
-  <div style="font-size:0.95em;min-width:150px;padding:3px 5px;line-height:1.2;">
-    <b style="color:#5b2c91;">${spot.name}</b><br>
-    <span style="color:#555;">${spot.address}</span><br>
-    <span style="color:#059640;font-weight:600;">${spot.available}/${spot.total} available</span><br>
-    <span style="color:#8e14e6;font-weight:600;">${spot.price}</span>
-  </div>
-`;
-    const infowindow = new google.maps.InfoWindow({ content: infoHtml });
-    marker.addListener("click", () => {
-      infowindow.open({ anchor: marker, map, shouldFocus: false });
-    });
-  });
-}
-
-  window.onload = function() { if (window.lucide) lucide.createIcons(); };
-
-      function showLoadingMask() {
-    const mask = document.getElementById('loadingMask');
-    mask.style.display = 'flex';
-    setTimeout(() => mask.classList.add('active'), 10); // fade in
-    }
-
-    function hideLoadingMask() {
-    const mask = document.getElementById('loadingMask');
-    mask.classList.remove('active');
-    setTimeout(() => mask.style.display = 'none', 250);
-    }
-
-    // 所有 nav-link/button 點擊顯示 loading，1.2秒後跳轉
-    document.querySelectorAll('.nav-link, .dashboard-btn').forEach(link => {
-    link.addEventListener('click', function(e) {
-        if (link.target === "_blank" || (link.href && !link.href.startsWith(window.location.origin))) return;
-        e.preventDefault();
-        showLoadingMask();
-        setTimeout(() => {
-        // <a>
-        if (link.tagName === 'A') window.location.href = link.href;
-        // <button data-href>
-        else if (link.tagName === 'BUTTON' && link.dataset.href) window.location.href = link.dataset.href;
-        }, 1200);
-    });
+      map: _map,
+      position: { lat: spot.lat, lng: spot.lng },
+      title: spot.name,
+      content: img
     });
 
-    // 若要每次換頁自動loading，可在 window.onload hide
-    window.onload = hideLoadingMask;
-
-
-   // Refresh 功能
-function refreshParkingList() {
-    const list = document.querySelector('.parking-list');
-    list.classList.add('refresh-highlight');
-
-    fetch("{% url 'live_parking_api' %}")
-        .then(res => res.json())
-        .then(data => {
-            list.innerHTML = "";
-
-            data.forEach(spot => {
-                list.innerHTML += `
-                <div class="parking-spot-card">
-                    <div class="card-row">
-                        <div>
-                            <div class="spot-name">${spot.name}</div>
-                            <div class="spot-address">${spot.address}</div>
-                        </div>
-                        <span class="badge-available ${spot.badge}">
-                            ${spot.available}/${spot.total} available
-                        </span>
-                    </div>
-                    <div class="card-row2">
-                        <span class="walk-dist"><i class="lucide lucide-map-pin"></i> ${spot.distance}</span>
-                        <span class="walk-time"><i class="lucide lucide-clock"></i> ${spot.walkTime} walk</span>
-                    </div>
-                    <div class="status-row">
-                        ${
-                            spot.prediction === 'decreasing'
-                                ? '<span class="status-dot status-decreasing"><i class="lucide lucide-trending-down"></i> Filling up</span>'
-                                : spot.prediction === 'stable'
-                                ? '<span class="status-dot status-stable"><i class="lucide lucide-minus"></i> Stable</span>'
-                                : '<span class="status-dot status-increasing"><i class="lucide lucide-trending-up"></i> More spots soon</span>'
-                        }
-                    </div>
-                </div>
-                `;
-            });
-
-            if (window.lucide) lucide.createIcons();
-            setTimeout(() => list.classList.remove('refresh-highlight'), 2000);
-        })
-        .catch(err => {
-            console.error("Refresh failed", err);
-            list.classList.remove('refresh-highlight');
-        });
-}
-
-// 原本 Refresh 按鈕
-document.querySelector('.btn-action').addEventListener('click', refreshParkingList);
-
-// Reset 按鈕同樣功能
-// document.querySelector('.btn-reset').addEventListener('click', refreshParkingList);
-
-
-
-
-// 篩選：有空位 + 距離 < 1km + 價格 <= 6
-document.getElementById('filterBtn').onclick = function () {
-  const filtered = parkingSpots.filter(spot => {
-    const distNum = parseFloat(spot.distance);
-    const distInKm = spot.distance.includes("km") ? distNum : distNum / 1000;
-    return spot.available > 0 && distInKm <= 0.4;
-  });
-  renderParkingList(filtered);
-  showToast('Filtered: under 400m with available spots');
-};
-
-
-
-// 渲染列表（Filter）
-function renderParkingList(listData) {
-  const list = document.querySelector('.parking-list');
-  list.innerHTML = "";
-  listData.forEach(spot => {
-    list.innerHTML += `
-      <div class="parking-spot-card">
-        <div class="card-row">
-          <div>
-            <div class="spot-name">${spot.name}</div>
-            <div class="spot-address">${spot.address}</div>
-          </div>
-          <span class="badge-available ${spot.badge}">
-            ${spot.available}/${spot.total} available
-          </span>
-        </div>
-        <div class="card-row2">
-          <span class="walk-dist"><i class="lucide lucide-map-pin"></i> ${spot.distance}</span>
-          <span class="walk-time"><i class="lucide lucide-clock"></i> ${spot.walkTime} walk</span>
-          <span class="price-tag">${spot.price}</span>
-        </div>
-        <div class="status-row">
-          ${
-            spot.prediction === 'decreasing'
-              ? '<span class="status-dot status-decreasing"><i class="lucide lucide-trending-down"></i> Filling up</span>'
-              : spot.prediction === 'stable'
-              ? '<span class="status-dot status-stable"><i class="lucide lucide-minus"></i> Stable</span>'
-              : '<span class="status-dot status-increasing"><i class="lucide lucide-trending-up"></i> More spots soon</span>'
-          }
-        </div>
+    const html = `
+      <div style="font-size:0.95em;min-width:150px;padding:3px 5px;line-height:1.2;">
+        <b style="color:#5b2c91;">${spot.name}</b><br>
+        <span style="color:#555;">${spot.address}</span><br>
+        <span style="color:#059640;font-weight:600;">${spot.available}/${spot.total} available</span><br>
+        <span style="color:#8e14e6;font-weight:600;">${spot.price || ''}</span>
       </div>
     `;
+
+    // Open info when marker itself is clicked
+    marker.addListener('click', () => {
+      _infoWindow.setContent(html);
+      _infoWindow.open({ anchor: marker, map: _map, shouldFocus: false });
+    });
+
+    // Index by key and keep references
+    _markerByKey.set(spotKey(spot), { marker, html, spot });
+    _markers.push(marker);
   });
-  if (window.lucide) lucide.createIcons();
 }
 
+/* Open a marker on the map for a given spot (used when list item is clicked) */
+function openSpotOnMap(spot, { pan = true, zoom = 16 } = {}) {
+  const entry = _markerByKey.get(spotKey(spot));
+  if (!entry || !_map) return;
 
-  </script>
+  if (pan) {
+    _map.panTo({ lat: spot.lat, lng: spot.lng });
+    if (_map.getZoom() < zoom) _map.setZoom(zoom);
+  }
+  _infoWindow.setContent(entry.html);
+  _infoWindow.open({ anchor: entry.marker, map: _map, shouldFocus: false });
+}
 
-    <!-- 全頁 Loading 遮罩 -->
+/* =========================
+   Full-page Loading Mask
+   ========================= */
+function showLoadingMask() {
+  const mask = document.getElementById('loadingMask');
+  mask.style.display = 'flex';
+  setTimeout(() => mask.classList.add('active'), 10);
+}
+function hideLoadingMask() {
+  const mask = document.getElementById('loadingMask');
+  mask.classList.remove('active');
+  setTimeout(() => mask.style.display = 'none', 250);
+}
+
+/* =========================================
+   Show mask when navigating via top navbar
+   ========================================= */
+function attachNavLoading() {
+  const links = document.querySelectorAll('.navbar .nav-link');
+  links.forEach(a => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      if (!href) return;
+      const url = new URL(href, window.location.origin);
+
+      // Do not intercept: new tab, external site, or same page
+      if (a.target === '_blank' || url.origin !== location.origin || url.pathname === location.pathname) {
+        return;
+      }
+
+      e.preventDefault();
+      showLoadingMask();
+      setTimeout(() => { window.location.href = url.href; }, 1200);
+    });
+  });
+}
+// Optional: show mask on normal page unloads
+window.addEventListener('beforeunload', () => { showLoadingMask(); });
+
+/* =========================
+   Refresh list (API fetch)
+   ========================= */
+function refreshParkingList() {
+  const list = document.querySelector('.parking-list');
+  list.classList.add('refresh-highlight');
+
+  fetch("{% url 'live_parking_api' %}")
+    .then(res => res.json())
+    .then(data => {
+      // Keep the same array reference so other parts stay in sync
+      parkingSpots.length = 0;
+      parkingSpots.push(...data);
+
+      // Re-render everything that depends on the data
+      renderParkingList(parkingSpots);
+      renderSpotBalls(parkingSpots);
+      drawMarkers(parkingSpots);
+
+      setTimeout(() => list.classList.remove('refresh-highlight'), 2000);
+    })
+    .catch(err => {
+      console.error("Refresh failed", err);
+      list.classList.remove('refresh-highlight');
+    });
+}
+// Bind the toolbar Refresh button (right column)
+document.querySelector('.side-tools .btn-action').addEventListener('click', refreshParkingList);
+
+/* ===================================
+   Filter button (≤ 0.4km & >0 spaces)
+   =================================== */
+document.getElementById('filterBtn').addEventListener('click', function () {
+  const filtered = parkingSpots.filter(spot => {
+    const distNum = parseFloat(spot.distance);
+    const inKm = spot.distance.includes("km") ? distNum : distNum / 1000;
+    return spot.available > 0 && inKm <= 0.4;
+  });
+  renderParkingList(filtered);
+  renderSpotBalls(filtered);
+  drawMarkers(filtered);
+  showToast('Filtered: under 400m with available spots');
+});
+
+/* =========================
+   First load
+   ========================= */
+window.onload = function () {
+  hideLoadingMask();
+  if (window.lucide) lucide.createIcons();
+  renderParkingList(parkingSpots);
+  renderSpotBalls(parkingSpots);
+  attachNavLoading(); // enable nav overlay when navigating between pages
+};
+</script>
+
+
+
+    <!-- Full Page Loading Mask -->
     <div id="loadingMask"
     style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;
     background:rgba(32,18,77,0.16);backdrop-filter:blur(2.5px);
@@ -640,7 +736,7 @@ function renderParkingList(listData) {
     </div>
 
   <script src="https://cdn.jsdelivr.net/npm/lucide-static@latest"></script>
-  <!-- 替換成你的 Google Maps API KEY -->
+  <!-- Replace with your Google Maps API KEY -->
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdEHtcGUCJlLkNKVOenB9xZCQATcGaPkU&callback=initParkingMap&v=weekly&libraries=marker&language=en" async defer></script>
 
 </body>

@@ -76,7 +76,7 @@
       align-items: center;
       white-space: nowrap;
       font-weight: 900;
-      color: #421d79; /* 深紫色，和 header 同色調 */
+      color: #421d79; /* Deep purple, same colour tone as header */
       font-size: 1.09em;
       animation: marquee-move 12s linear infinite;
       letter-spacing: 0.5px;
@@ -88,7 +88,7 @@
       height: 22px;
       margin-right: 12px;
       margin-bottom: 2px;
-      filter: drop-shadow(0 2px 8px #ffe44190); /* 給車子微金光 */
+      filter: drop-shadow(0 2px 8px #ffe44190); /* Give the car a little sparkle */
     }
     @keyframes marquee-move {
       0% { transform: translateX(50%);}
@@ -296,17 +296,17 @@
   color: #ffe441;
   font-weight: 900;
   text-shadow:
-    /* 黑色粗邊（外圍） */
+    /* Black thick border (outer edge) */
     -2px -2px 2px #222,
     2px -2px 2px #222,
     -2px 2px 2px #222,
     2px 2px 2px #222,
-    /* 較細黑邊（銜接中間） */
+    /* Thinner black border (connecting the middle) */
     -1px 0px 1px #222,
     1px 0px 1px #222,
     0px -1px 1px #222,
     0px 1px 1px #222,
-    /* 金色發光（外圍） */
+    /* Golden glow (periphery) */
     0 0 14px #ffd900cc,
     0 0 2px #ffd900cc,
     0 1px 6px #fff8,
@@ -411,7 +411,7 @@
       setTimeout(() => mask.style.display = 'none', 250);
       }
 
-      // 所有 nav-link/button 點擊顯示 loading，1.2秒後跳轉
+      // All nav-link/button clicks display loading, then redirect after 1.2 seconds.
       document.querySelectorAll('.nav-link, .dashboard-btn').forEach(link => {
       link.addEventListener('click', function(e) {
           if (link.target === "_blank" || (link.href && !link.href.startsWith(window.location.origin))) return;
@@ -426,11 +426,11 @@
       });
       });
 
-      // 若要每次換頁自動loading，可在 window.onload hide
+      // If you want to automatically load each page when you switch pages, you can use window.onload hide.
       window.onload = hideLoadingMask;
   </script>
 
-      <!-- 全頁 Loading 遮罩 -->
+      <!-- Full Page Loading Mask-->
       <div id="loadingMask"
       style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;
       background:rgba(32,18,77,0.16);backdrop-filter:blur(2.5px);

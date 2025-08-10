@@ -16,7 +16,7 @@
       color: #fff;
       min-height: 100vh;
     }
-        /* --- navbar, marquee, nav-link (你的模板) --- */
+        /* --- navbar, marquee, nav-link --- */
     .navbar {
       width: 100%;
       background: linear-gradient(90deg, #be7bf6 0%, #9400ff 80%);
@@ -74,7 +74,7 @@
       align-items: center;
       white-space: nowrap;
       font-weight: 900;
-      color: #421d79; /* 深紫色，和 header 同色調 */
+      color: #421d79;
       font-size: 1.09em;
       animation: marquee-move 12s linear infinite;
       letter-spacing: 0.5px;
@@ -304,17 +304,17 @@
   color: #ffe441;
   font-weight: 900;
   text-shadow:
-    /* 黑色粗邊（外圍） */
+    /* Black thick border (outer edge) */
     -2px -2px 2px #222,
     2px -2px 2px #222,
     -2px 2px 2px #222,
     2px 2px 2px #222,
-    /* 較細黑邊（銜接中間） */
+    /* Thinner black border (connecting the middle)） */
     -1px 0px 1px #222,
     1px 0px 1px #222,
     0px -1px 1px #222,
     0px 1px 1px #222,
-    /* 金色發光（外圍） */
+    /* Golden glow (periphery) */
     0 0 14px #ffd900cc,
     0 0 2px #ffd900cc,
     0 1px 6px #fff8,
@@ -335,6 +335,41 @@
     color: white;
     border-color: #732be7;
   }
+
+
+
+  /* Impact themes driven by CSS variables */
+.impact-box{
+  --impact-bg:#f7efff;
+  --impact-findings:#732be7; /* left column color */
+  --impact-reco:#0e8e6f;     /* right column color */
+  background: var(--impact-bg);
+}
+.impact-findings{ color: var(--impact-findings); }
+.impact-reco{ color: var(--impact-reco); }
+.impact-list{ color: var(--impact-findings); }
+.impact-list.reco{ color: var(--impact-reco); }
+
+/* Theme when clicking the weekly BAR chart */
+.impact-box.theme-weekly{
+  --impact-bg:#f7efff;
+  --impact-findings:#732be7;
+  --impact-reco:#0ea5a5;
+}
+
+/* Theme when clicking the hourly LINE chart */
+.impact-box.theme-hourly{
+  --impact-bg:#eef7ff;
+  --impact-findings:#2563eb;
+  --impact-reco:#f97316;
+}
+
+
+
+
+
+
+
   </style>
   <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -460,169 +495,166 @@
   
 <script>
 
-  // 後端傳來的資料
-const weeklyData = {{ weeklyData|safe }};
-const hourlyData = {{ hourlyData|safe }};
+        // Data transmitted from the back end
+      const weeklyData = {{ weeklyData|safe }};
+      const hourlyData = {{ hourlyData|safe }};
 
-// --- Weekly Chart 初始化 (Time of Day 篩選) ---
-const weeklyChart = new Chart(document.getElementById('weeklyChart').getContext('2d'), {
-  type: 'bar',
-  data: buildWeeklyChartData("Overall"),
-  options: {
-    responsive: true,
-    plugins: {
-      legend: { position: 'top', labels: { color: '#421d79', font: { weight: 'bold', size: 14 } } },
-      tooltip: { mode: 'index', intersect: false }
-    },
-    scales: {
-      x: { ticks: { color: '#421d79', font: { weight: 'bold' } }, grid: { display: false } },
-      y: { beginAtZero: true, ticks: { color: '#421d79', stepSize: 20 }, grid: { color: '#e7d8fa55' } }
-    }
-  }
-});
+      // --- Weekly chart initialisation (time filter) ---
+      const weeklyChart = new Chart(document.getElementById('weeklyChart').getContext('2d'), {
+        type: 'bar',
+        data: buildWeeklyChartData("Overall"),
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'top', labels: { color: '#421d79', font: { weight: 'bold', size: 14 } } },
+            tooltip: { mode: 'index', intersect: false }
+          },
+          scales: {
+            x: { ticks: { color: '#421d79', font: { weight: 'bold' } }, grid: { display: false } },
+            y: { beginAtZero: true, ticks: { color: '#421d79', stepSize: 20 }, grid: { color: '#e7d8fa55' } }
+          }
+        }
+      });
 
-function buildWeeklyChartData(timeFilter) {
-  let filtered = [];
+      function buildWeeklyChartData(timeFilter) {
+        let filtered = [];
 
-  if (timeFilter === "Overall") {
-    // 先按 day 分組，平均 availability & demand
-    const grouped = {};
-    weeklyData.forEach(d => {
-      if (!grouped[d.day]) grouped[d.day] = { availability: 0, demand: 0, count: 0 };
-      grouped[d.day].availability += d.availability;
-      grouped[d.day].demand += d.demand;
-      grouped[d.day].count++;
-    });
-    filtered = Object.keys(grouped).map(day => ({
-      day,
-      availability: grouped[day].availability / grouped[day].count,
-      demand: grouped[day].demand / grouped[day].count
-    }));
-  } else {
-    // 單一時段過濾
-    filtered = weeklyData.filter(d => d.timeOfDay === timeFilter);
-  }
+        if (timeFilter === "Overall") {
+          // First, group by day, average availability & demand
+          const grouped = {};
+          weeklyData.forEach(d => {
+            if (!grouped[d.day]) grouped[d.day] = { availability: 0, demand: 0, count: 0 };
+            grouped[d.day].availability += d.availability;
+            grouped[d.day].demand += d.demand;
+            grouped[d.day].count++;
+          });
+          filtered = Object.keys(grouped).map(day => ({
+            day,
+            availability: grouped[day].availability / grouped[day].count,
+            demand: grouped[day].demand / grouped[day].count
+          }));
+        } else {
+          // Single time period filter
+          filtered = weeklyData.filter(d => d.timeOfDay === timeFilter);
+        }
 
-  // 固定週日開始排序
-  const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  filtered.sort((a, b) => dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day));
+        // Fixed Sunday start sorting
+        const dayOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        filtered.sort((a, b) => dayOrder.indexOf(a.day) - dayOrder.indexOf(b.day));
 
-  return {
-    labels: filtered.map(d => d.day),
-    datasets: [
-      { label: 'Availability %', data: filtered.map(d => d.availability), backgroundColor: '#10b981', borderRadius: 8, barThickness: 24 },
-      { label: 'Demand %', data: filtered.map(d => d.demand), backgroundColor: '#732be7', borderRadius: 8, barThickness: 24 }
-    ]
-  };
-}
-
-// --- Time of Day 按鈕 ---
-document.querySelectorAll('.time-filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.time-filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const timeFilter = btn.dataset.time;
-    weeklyChart.data = buildWeeklyChartData(timeFilter);
-    weeklyChart.update();
-  });
-});
-
-// --- Hourly Chart 初始化 (Weekdays / Weekends + checkbox) ---
-const hourlyChart = new Chart(document.getElementById('hourlyChart').getContext('2d'), {
-  type: 'line',
-  data: buildHourlyChartData(['Mon', 'Tue', 'Wed', 'Thu', 'Fri']),
-  options: {
-    responsive: true,
-    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
-    scales: {
-      x: { ticks: { color: '#421d79', font: { weight: 'bold' } }, grid: { display: false } },
-      y: { beginAtZero: true, ticks: { color: '#421d79', stepSize: 20 }, grid: { color: '#e7d8fa55' } }
-    }
-  }
-});
-
-function buildHourlyChartData(selectedDays) {
-  const grouped = {};
-
-  hourlyData
-    .filter(d => selectedDays.includes(d.day))
-    .forEach(d => {
-      if (!grouped[d.hour]) {
-        grouped[d.hour] = { total: 0, count: 0 };
+        return {
+          labels: filtered.map(d => d.day),
+          datasets: [
+            { label: 'Availability %', data: filtered.map(d => d.availability), backgroundColor: '#10b981', borderRadius: 8, barThickness: 24 },
+            { label: 'Demand %', data: filtered.map(d => d.demand), backgroundColor: '#732be7', borderRadius: 8, barThickness: 24 }
+          ]
+        };
       }
-      grouped[d.hour].total += d.availability;
-      grouped[d.hour].count++;
-    });
 
-  const labels = Object.keys(grouped).map(h => {
-    const hour = parseInt(h, 10);
-    const suffix = hour >= 12 ? 'PM' : 'AM';
-    const displayHour = (hour % 12 === 0 ? 12 : hour % 12) + suffix;
-    return displayHour;
-  });
+      // --- Time of Day button ---
+      document.querySelectorAll('.time-filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.time-filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const timeFilter = btn.dataset.time;
+          weeklyChart.data = buildWeeklyChartData(timeFilter);
+          weeklyChart.update();
+        });
+      });
 
-  const avgAvailability = Object.keys(grouped).map(hour => grouped[hour].total / grouped[hour].count);
+      // --- Hourly chart initialisation (weekdays/weekends + checkbox). ---
+      const hourlyChart = new Chart(document.getElementById('hourlyChart').getContext('2d'), {
+        type: 'line',
+        data: buildHourlyChartData(['Mon', 'Tue', 'Wed', 'Thu', 'Fri']),
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+          scales: {
+            x: { ticks: { color: '#421d79', font: { weight: 'bold' } }, grid: { display: false } },
+            y: { beginAtZero: true, ticks: { color: '#421d79', stepSize: 20 }, grid: { color: '#e7d8fa55' } }
+          }
+        }
+      });
 
-  return {
-    labels,
-    datasets: [{
-      label: 'Availability %',
-      data: avgAvailability,
-      borderColor: '#10b981',
-      backgroundColor: 'rgba(16,185,129,0.1)',
-      pointBackgroundColor: '#10b981',
-      pointBorderColor: '#fff',
-      pointRadius: 4,
-      fill: true,
-      tension: 0.42
-    }]
-  };
-}
+      function buildHourlyChartData(selectedDays) {
+        const grouped = {};
 
+        hourlyData
+          .filter(d => selectedDays.includes(d.day))
+          .forEach(d => {
+            if (!grouped[d.hour]) {
+              grouped[d.hour] = { total: 0, count: 0 };
+            }
+            grouped[d.hour].total += d.availability;
+            grouped[d.hour].count++;
+          });
 
-// --- 預設啟用 Weekdays tab ---
-document.getElementById('tab-weekdays').classList.add('active');
-document.getElementById('weekday-checkboxes').style.display = '';
-document.getElementById('weekend-checkboxes').style.display = 'none';
+        const labels = Object.keys(grouped).map(h => {
+          const hour = parseInt(h, 10);
+          const suffix = hour >= 12 ? 'PM' : 'AM';
+          const displayHour = (hour % 12 === 0 ? 12 : hour % 12) + suffix;
+          return displayHour;
+        });
 
-// --- Hourly Chart Tabs (Weekdays / Weekends) ---
-document.querySelectorAll('.day-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
+        const avgAvailability = Object.keys(grouped).map(hour => grouped[hour].total / grouped[hour].count);
 
-    document.getElementById('weekday-checkboxes').style.display = (tab.id === 'tab-weekdays') ? '' : 'none';
-    document.getElementById('weekend-checkboxes').style.display = (tab.id === 'tab-weekends') ? '' : 'none';
-
-    updateHourlyChart();
-  });
-});
-
-// --- Checkbox change ---
-document.querySelectorAll('#weekday-checkboxes input, #weekend-checkboxes input')
-  .forEach(cb => cb.addEventListener('change', updateHourlyChart));
-
-function updateHourlyChart() {
-  let selectedDays = [];
-
-  if (document.getElementById('weekday-checkboxes').style.display !== 'none') {
-    selectedDays = Array.from(document.querySelectorAll('#weekday-checkboxes input:checked')).map(c => c.value);
-  } else {
-    selectedDays = Array.from(document.querySelectorAll('#weekend-checkboxes input:checked')).map(c => c.value);
-  }
-
-  hourlyChart.data = buildHourlyChartData(selectedDays);
-  hourlyChart.update();
-}
-
+        return {
+          labels,
+          datasets: [{
+            label: 'Availability %',
+            data: avgAvailability,
+            borderColor: '#10b981',
+            backgroundColor: 'rgba(16,185,129,0.1)',
+            pointBackgroundColor: '#10b981',
+            pointBorderColor: '#fff',
+            pointRadius: 4,
+            fill: true,
+            tension: 0.42
+          }]
+        };
+      }
 
 
-    
+      // --- Set up the weekdays tab ---
+      document.getElementById('tab-weekdays').classList.add('active');
+      document.getElementById('weekday-checkboxes').style.display = '';
+      document.getElementById('weekend-checkboxes').style.display = 'none';
 
-          function showLoadingMask() {
-      const mask = document.getElementById('loadingMask');
-      mask.style.display = 'flex';
-      setTimeout(() => mask.classList.add('active'), 10); // fade in
+      // --- Hourly Chart Tabs (Weekdays / Weekends) ---
+      document.querySelectorAll('.day-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.day-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          document.getElementById('weekday-checkboxes').style.display = (tab.id === 'tab-weekdays') ? '' : 'none';
+          document.getElementById('weekend-checkboxes').style.display = (tab.id === 'tab-weekends') ? '' : 'none';
+
+          updateHourlyChart();
+        });
+      });
+
+      // --- Checkbox change ---
+      document.querySelectorAll('#weekday-checkboxes input, #weekend-checkboxes input')
+        .forEach(cb => cb.addEventListener('change', updateHourlyChart));
+
+      function updateHourlyChart() {
+        let selectedDays = [];
+
+        if (document.getElementById('weekday-checkboxes').style.display !== 'none') {
+          selectedDays = Array.from(document.querySelectorAll('#weekday-checkboxes input:checked')).map(c => c.value);
+        } else {
+          selectedDays = Array.from(document.querySelectorAll('#weekend-checkboxes input:checked')).map(c => c.value);
+        }
+
+        hourlyChart.data = buildHourlyChartData(selectedDays);
+        hourlyChart.update();
+      }
+
+
+      function showLoadingMask() {
+        const mask = document.getElementById('loadingMask');
+        mask.style.display = 'flex';
+        setTimeout(() => mask.classList.add('active'), 10); // fade in
       }
 
       function hideLoadingMask() {
@@ -631,7 +663,7 @@ function updateHourlyChart() {
       setTimeout(() => mask.style.display = 'none', 250);
       }
 
-      // 所有 nav-link/button 點擊顯示 loading，1.2秒後跳轉
+      // A loading screen is displayed for 1.2 seconds before redirection for all nav-link/button clicks.
       document.querySelectorAll('.nav-link, .dashboard-btn').forEach(link => {
       link.addEventListener('click', function(e) {
           if (link.target === "_blank" || (link.href && !link.href.startsWith(window.location.origin))) return;
@@ -646,11 +678,164 @@ function updateHourlyChart() {
       });
       });
 
-      // 若要每次換頁自動loading，可在 window.onload hide
+      /* ---------- Impact Box helpers ---------- */
+      const impactBoxEl   = document.querySelector('.impact-box');
+      const findingsTitle = document.querySelector('.impact-findings');          // left title
+      const recoTitle     = document.querySelector('.impact-reco');              // right title (has both classes)
+      const findingsList  = document.querySelector('.impact-list:not(.reco)');   // left ul
+      const recoList      = document.querySelector('.impact-list.reco');         // right ul
+      const impactMainT   = document.querySelector('.impact-title');
+      const impactSubT    = document.querySelector('.impact-subtitle');
+
+      /* Replace content of the Impact box */
+      function setImpactContent({title, subtitle, findings=[], recos=[]}) {
+        if (title)    impactMainT.textContent = title;
+        if (subtitle) impactSubT.textContent  = subtitle;
+
+        findingsList.innerHTML = findings.map(t => `<li>${t}</li>`).join('');
+        recoList.innerHTML     = recos.map(t => `<li>${t}</li>`).join('');
+      }
+
+      /* Switch color theme via class */
+      function setImpactTheme(theme){        // 'weekly' | 'hourly'
+        impactBoxEl.classList.remove('theme-weekly','theme-hourly');
+        if (theme) impactBoxEl.classList.add(`theme-${theme}`);
+      }
+
+      /* Utility for percent formatting */
+      const pct = (v)=> `${Math.round(v)}%`;
+
+      /* ---------- Wire WEEKLY (BAR) chart click ---------- */
+      document.getElementById('weeklyChart').addEventListener('click', (evt)=>{
+        const pts = weeklyChart.getElementsAtEventForMode(evt, 'nearest', {intersect:true}, true);
+        if (!pts.length) return;
+
+        const {index, datasetIndex} = pts[0];
+        const dayLabel   = weeklyChart.data.labels[index];
+        const seriesName = weeklyChart.data.datasets[datasetIndex].label; // Availability % | Demand %
+        const availVal   = weeklyChart.data.datasets[0].data[index];
+        const demandVal  = weeklyChart.data.datasets[1].data[index];
+        const activeTime = document.querySelector('.time-filter-btn.active')?.dataset.time || 'Overall';
+
+        setImpactTheme('weekly');
+
+        const busy = demandVal > availVal;
+        setImpactContent({
+          title: `Impact Analysis — ${dayLabel}${activeTime==='Overall'?'':` • ${activeTime}`}`,
+          subtitle: `Insights from weekly ${seriesName.toLowerCase()} patterns`,
+          findings: [
+            `${dayLabel}${activeTime==='Overall'?'':` (${activeTime})`} shows ${busy?'higher demand than availability':'more availability than demand'}.`,
+            `Average availability: ${pct(availVal)}.`,
+            `Average demand: ${pct(demandVal)}.`,
+            busy ? `Expect competition for spots during peak windows.` : `This window is generally easier to find parking.`,
+            `Use live updates to time your arrival.`
+          ],
+          recos: busy ? [
+            `Arrive earlier or target side streets with faster turnover.`,
+            `Consider public transport or ride-share for this interval.`,
+            `Pre-book garages near your destination when possible.`,
+            `Set an alert 10–15 min before leaving.`
+          ] : [
+            `Good time for errands or short stops.`,
+            `Prefer streets with 1–2h limits (higher turnover).`,
+            `Share availability with your group to coordinate arrivals.`,
+            `Leverage predictive map to avoid sudden spikes.`
+          ]
+        });
+      });
+
+      /* ---------- Wire HOURLY (LINE) chart click ---------- */
+      document.getElementById('hourlyChart').addEventListener('click', (evt)=>{
+        const pts = hourlyChart.getElementsAtEventForMode(evt, 'nearest', {intersect:false}, true);
+        if (!pts.length) return;
+
+        const {index} = pts[0];
+        const hourLabel = hourlyChart.data.labels[index];       // e.g., "8AM"
+        const avail     = hourlyChart.data.datasets[0].data[index];
+
+        // Figure out whether we are viewing weekdays or weekends
+        const onWeekdays = document.getElementById('weekday-checkboxes').style.display !== 'none';
+        const selected   = onWeekdays
+          ? Array.from(document.querySelectorAll('#weekday-checkboxes input:checked')).map(c=>c.value)
+          : Array.from(document.querySelectorAll('#weekend-checkboxes input:checked')).map(c=>c.value);
+
+        setImpactTheme('hourly');
+
+        setImpactContent({
+          title: `Impact Analysis — ${onWeekdays?'Weekdays':'Weekends'} • ${hourLabel}`,
+          subtitle: `Average availability across ${selected.join(', ') || 'selected days'}`,
+          findings: [
+            `Typical availability at ${hourLabel}: ${pct(avail)}.`,
+            avail < 35 ? `This is a tight window—spots turn over slowly.` :
+            avail < 65 ? `Moderate window—watch nearby streets for openings.` :
+                        `Easier window—higher turnover across most zones.`,
+            `Morning peaks align with office arrivals; evenings trend with events.`,
+            `Weather & events can shift this curve by ±10–15%.`
+          ],
+          recos: avail < 35 ? [
+            `Aim to arrive 15–25 min earlier than planned.`,
+            `Prefer garages with live vacancy feeds.`,
+            `Use public transport if you see demand surging.`
+          ] : avail < 65 ? [
+            `Refresh live map while en-route; target green corridors.`,
+            `Consider streets 1–2 blocks off main avenues.`,
+            `Keep an alternative zone as backup.`
+          ] : [
+            `Great time to park near your destination.`,
+            `Try short-stay zones for quick errands.`,
+            `Share route to avoid sudden bottlenecks.`
+          ]
+        });
+      });
+
+      /* ---------- Also update Impact when filter UI changes ---------- */
+      // Time-of-day buttons for the weekly chart
+      document.querySelectorAll('.time-filter-btn').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          setImpactTheme('weekly');
+          setImpactContent({
+            title: `Impact Analysis — Weekly • ${btn.dataset.time}`,
+            subtitle: `Summary for ${btn.dataset.time.toLowerCase()} pattern`,
+            findings: [
+              `Bars now show average availability vs demand by day.`,
+              `Click a bar to drill into a specific day.`,
+              `Purple = demand, Green = availability.`
+            ],
+            recos: [
+              `Use the green/demand gap to pick easier days.`,
+              `For tight gaps, pre-book or arrive earlier.`,
+              `Re-check live data before departure.`
+            ]
+          });
+        });
+      });
+
+      // Weekdays/Weekends tab switch for the hourly chart
+      document.querySelectorAll('.day-tab').forEach(tab=>{
+        tab.addEventListener('click', ()=>{
+          setImpactTheme('hourly');
+          setImpactContent({
+            title: `Impact Analysis — ${tab.id==='tab-weekdays'?'Weekdays':'Weekends'}`,
+            subtitle: `Click a point to get hour-level guidance`,
+            findings: [
+              `Line shows average availability across selected days.`,
+              `AM peaks correlate with commute periods; PM with events.`,
+              `Use checkboxes to include/exclude certain days.`
+            ],
+            recos: [
+              `Target higher availability hours for downtown errands.`,
+              `Shift meetings by 15–30 min to dodge peaks.`,
+              `Use predictive map to plan backup streets.`
+            ]
+          });
+        });
+      });
+
+      // To enable automatic loading on each page, add 'hide' to the 'window.onload' function.
       window.onload = hideLoadingMask;
   </script>
 
-          <!-- 全頁 Loading 遮罩 -->
+          <!-- Full Page Loading Mask -->
       <div id="loadingMask"
       style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;
       background:rgba(32,18,77,0.16);backdrop-filter:blur(2.5px);

@@ -27,11 +27,11 @@ def contact(request):
     return render(request, 'contact.html')
 
 def live_parking(request):
-    if not live_parking_service.get_live_parking_data():  # 如果快取沒資料
+    if not live_parking_service.get_live_parking_data():  # If there is no data in the cache
         live_parking_service.fetch_and_cache_parking()
     parking_spots = live_parking_service.get_live_parking_data()
     return render(request, "live_parking.html", {"parking_spots": parking_spots})
 
 def live_parking_api(request):
-    live_parking_service.fetch_and_cache_parking()  # 每次按 Refresh 就更新
+    live_parking_service.fetch_and_cache_parking()  # Refresh to update
     return JsonResponse(live_parking_service.get_live_parking_data(), safe=False)

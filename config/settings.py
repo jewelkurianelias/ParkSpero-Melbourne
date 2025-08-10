@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'main'
 ]
 
 MIDDLEWARE = [
@@ -74,8 +75,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'parkspero',  # RDS DB name
+        'USER': 'admin',       # RDS admin username
+        'PASSWORD': 'DjangoProject',  # should apply password encryption
+        'HOST': 'fit5120-mysql-manager.chqewewswxbs.ap-southeast-2.rds.amazonaws.com',  # RDS endpoint
+        'PORT': '3306',
     }
 }
 
