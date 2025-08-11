@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 import json
+from django.views.decorators.http import require_GET
 from .services import home_service, predictions_service, analytics_service, live_parking_service
 
 
@@ -35,3 +36,8 @@ def live_parking(request):
 def live_parking_api(request):
     live_parking_service.fetch_and_cache_parking()  # Refresh to update
     return JsonResponse(live_parking_service.get_live_parking_data(), safe=False)
+
+@require_GET
+def predictions_api(request):
+    payload = predictions_service.predict_now()  # already cached ~60s in the service
+    return JsonResponse(payload, safe=False)

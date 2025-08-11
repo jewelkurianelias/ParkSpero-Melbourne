@@ -9,4 +9,7 @@ urlpatterns = [
     path('live_parking/', views.live_parking, name='live_parking'),
     path('contact/', views.contact, name='contact'),
     path("api/live_parking/", views.live_parking_api, name="live_parking_api"),
+
+    # NEW: predictions API (cache-backed, read-only)
+    path('api/v1/predictions/', views.predictions_api, name='predictions_api'),
 ]
